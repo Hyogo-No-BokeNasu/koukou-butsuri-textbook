@@ -1,0 +1,2725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="高等学校 物理基礎・物理 全5編16節のインタラクティブ・デジタル教科書。公式・図・シミュレーター・例題・確認問題つき。" />
+  <link rel="icon" href="data:," />
+  <title>高等学校 物理 ― インタラクティブ・デジタル教科書</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-app: #f3f6fb;
+      --bg-paper: #ffffff;
+      --bg-sidebar: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-callout: #eff6ff;
+      --bg-example: #f0fdf4;
+      --bg-column: #fffbeb;
+      --bg-pitfall: #fff1f2;
+      --text-main: #1e293b;
+      --text-muted: #475569;
+      --text-light: #64748b;
+      --border-color: #e2e8f0;
+      --accent: #2563eb;
+      --accent-soft: #dbeafe;
+      --accent-dark: #1e40af;
+      --success: #0f766e;
+      --success-soft: #ccfbf1;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --danger: #be123c;
+      --danger-soft: #ffe4e6;
+      --font-sans: 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', Georgia, serif;
+      --font-scale: 1;
+      --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 10px 30px rgba(15, 23, 42, 0.07);
+    }
+
+    [data-theme="paper"] {
+      --bg-app: #ece6d9;
+      --bg-paper: #fcf9f2;
+      --bg-sidebar: #f7f3e8;
+      --bg-subtle: #f3ede0;
+      --bg-callout: #eef4f9;
+      --bg-example: #eff6f1;
+      --bg-column: #f9f1db;
+      --bg-pitfall: #faecee;
+      --text-main: #292524;
+      --text-muted: #57534e;
+      --border-color: #dfd6c3;
+    }
+
+    [data-theme="dark"] {
+      --bg-app: #0b1120;
+      --bg-paper: #1e293b;
+      --bg-sidebar: #131c2e;
+      --bg-subtle: #263348;
+      --bg-callout: #172554;
+      --bg-example: #122b26;
+      --bg-column: #2c2416;
+      --bg-pitfall: #3b121e;
+      --text-main: #f1f5f9;
+      --text-muted: #cbd5e1;
+      --text-light: #94a3b8;
+      --border-color: #334155;
+      --accent-soft: #1e3a8a;
+      --accent-dark: #93c5fd;
+      --success: #2dd4bf;
+      --success-soft: #134e4a;
+      --warn: #fbbf24;
+      --warn-soft: #451a03;
+      --danger: #fb7185;
+      --danger-soft: #4c0519;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-sans);
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.75;
+      height: 100%;
+    }
+
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+
+    /* Top Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.92);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
+    }
+
+    [data-theme="paper"] .topbar { background: rgba(247, 243, 232, 0.94); }
+    [data-theme="dark"] .topbar { background: rgba(19, 28, 46, 0.92); }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      height: 60px;
+      padding: 0 18px;
+      max-width: 1460px;
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #0ea5e9);
+      color: #fff;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-light);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .toolbar::-webkit-scrollbar { display: none; }
+
+    .tool-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      min-height: 40px;
+      padding: 6px 12px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-paper);
+      color: var(--text-main);
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      font-family: var(--font-sans);
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .tool-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .tool-btn.redsheet-active {
+      background: #e11d48;
+      border-color: #e11d48;
+      color: #ffffff;
+    }
+
+    /* Main workspace */
+    .workspace {
+      display: flex;
+      flex: 1;
+      max-width: 1460px;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Sidebar TOC */
+    .sidebar {
+      width: 316px;
+      flex-shrink: 0;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      height: calc(100vh - 60px);
+      height: calc(100dvh - 60px);
+      position: sticky;
+      top: 60px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px 14px 36px;
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar-search {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .sidebar-search input {
+      width: 100%;
+      padding: 9px 12px 9px 34px;
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-size: 13px;
+      font-family: var(--font-sans);
+      -webkit-appearance: none;
+    }
+
+    .sidebar-search input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .sidebar-search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+      font-size: 14px;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .filter-pill {
+      flex: 1;
+      padding: 7px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      font-family: var(--font-sans);
+      transition: all 0.15s;
+    }
+
+    .filter-pill.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent-dark);
+    }
+
+    .progress-summary {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 11px 13px;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .progress-bar-track {
+      height: 7px;
+      background: var(--border-color);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #0d9488);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .unit-group { margin-bottom: 14px; }
+
+    .unit-header {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-light);
+      padding: 4px 8px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .unit-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      width: 100%;
+      text-align: left;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-size: 13px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: background-color 0.15s;
+      margin-bottom: 2px;
+    }
+
+    .toc-item:hover { background: var(--bg-subtle); }
+
+    .toc-item.active {
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-weight: 600;
+    }
+
+    .toc-num {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      min-width: 24px;
+    }
+
+    .toc-item.active .toc-num { color: var(--accent-dark); }
+    .toc-title { flex: 1; line-height: 1.35; }
+
+    .toc-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .badge-kiso { background: #e0f2fe; color: #0369a1; }
+    .badge-butsuri { background: #ede9fe; color: #5b21b6; }
+    [data-theme="dark"] .badge-kiso { background: #0c4a6e; color: #bae6fd; }
+    [data-theme="dark"] .badge-butsuri { background: #3b0764; color: #ddd6fe; }
+
+    .toc-check { color: var(--success); font-size: 13px; font-weight: 700; }
+
+    /* Reader Area */
+    .reader-container {
+      flex: 1;
+      min-width: 0;
+      padding: 24px 22px 72px;
+    }
+
+    .paper-sheet {
+      max-width: 880px;
+      margin: 0 auto;
+      background: var(--bg-paper);
+      border: 1px solid var(--border-color);
+      border-top: 6px solid var(--accent);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      padding: 34px 44px 48px;
+      font-size: calc(16px * var(--font-scale));
+    }
+
+    /* Chapter Header */
+    .section-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-breadcrumb {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-actions { display: flex; align-items: center; gap: 8px; }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: calc(28px * var(--font-scale));
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0 0 18px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title-num {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: calc(14px * var(--font-scale));
+      padding: 4px 11px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Learning Goals Card */
+    .goals-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 18px;
+    }
+    .goals-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .goals-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: calc(14px * var(--font-scale));
+      color: var(--text-muted);
+    }
+    .goals-list li { margin-bottom: 3px; }
+
+    /* Hook Box */
+    .hook-box {
+      background: linear-gradient(135deg, var(--bg-callout), var(--bg-subtle));
+      border-left: 4px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      padding: 15px 18px;
+      margin-bottom: 22px;
+    }
+
+    .hook-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    /* Pitfall Box */
+    .pitfall-box {
+      background: var(--bg-pitfall);
+      border: 1px solid rgba(190, 18, 60, 0.25);
+      border-left: 4px solid var(--danger);
+      border-radius: 0 12px 12px 0;
+      padding: 14px 18px;
+      margin: 22px 0;
+      font-size: calc(14.5px * var(--font-scale));
+    }
+    .pitfall-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--danger);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prose-heading {
+      font-family: var(--font-sans);
+      font-size: calc(18.5px * var(--font-scale));
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 28px 0 12px;
+      padding-left: 12px;
+      border-left: 4px solid var(--accent);
+      line-height: 1.4;
+    }
+
+    .prose-p {
+      margin: 0 0 14px;
+      text-align: justify;
+    }
+
+    /* Comparison Table */
+    .compare-table-wrap {
+      overflow-x: auto;
+      margin: 18px 0;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: calc(13.5px * var(--font-scale));
+    }
+    .compare-table th {
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-weight: 700;
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--border-color);
+    }
+    .compare-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: top;
+    }
+    .compare-table tr:last-child td { border-bottom: none; }
+
+    /* Red-sheet maskable terms */
+    .key-term {
+      font-weight: 700;
+      color: #c2410c;
+      background: rgba(251, 146, 60, 0.13);
+      padding: 1px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    [data-theme="dark"] .key-term {
+      color: #fdba74;
+      background: rgba(251, 146, 60, 0.2);
+    }
+
+    body.redsheet-on .key-term {
+      background: #dc2626 !important;
+      color: #dc2626 !important;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body.redsheet-on .key-term.revealed {
+      background: rgba(220, 38, 38, 0.14) !important;
+      color: #dc2626 !important;
+    }
+
+    /* Formula Box */
+    .formula-box {
+      background: var(--bg-callout);
+      border: 1.5px solid var(--accent);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+
+    .formula-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .formula-item {
+      background: var(--bg-paper);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+    .formula-item:last-child { margin-bottom: 0; }
+
+    .formula-note {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      border-top: 1px dashed var(--border-color);
+      padding-top: 6px;
+    }
+
+    /* SVG Diagram Container */
+    .figure-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 22px 0;
+      text-align: center;
+    }
+
+    .figure-box svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .figure-caption {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      font-weight: 600;
+    }
+
+    /* Interactive Simulator Box */
+    .sim-box {
+      background: var(--bg-paper);
+      border: 2px solid #0284c7;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 26px 0;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .sim-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .sim-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #0284c7;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 11px;
+      border-radius: 999px;
+    }
+
+    .sim-canvas-wrap {
+      position: relative;
+      width: 100%;
+      background: #0f172a;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    .sim-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 280px;
+    }
+
+    .sim-controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .sim-control-item label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--text-main);
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 999px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #0284c7;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+
+    .sim-readout {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--bg-subtle);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      border: 1px solid var(--border-color);
+    }
+
+    .sim-readout span { font-weight: 600; }
+
+    .sim-btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
+    /* Example Problem Box */
+    .example-box {
+      background: var(--bg-example);
+      border: 1px solid #0f766e;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 24px 0;
+    }
+
+    .example-header {
+      display: inline-block;
+      background: #0f766e;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .solution-toggle {
+      margin-top: 12px;
+      background: var(--bg-paper);
+      border: 1px solid #0f766e;
+      color: var(--success);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+
+    .solution-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed rgba(15, 118, 110, 0.35);
+      font-size: calc(15px * var(--font-scale));
+    }
+
+    /* Practice Quiz Box */
+    .quiz-box {
+      background: var(--bg-subtle);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 22px 0;
+    }
+
+    .quiz-badge {
+      display: inline-block;
+      background: #4f46e5;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .quiz-options { display: grid; gap: 8px; margin: 12px 0; }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      background: var(--bg-paper);
+      color: var(--text-main);
+      font-size: 14px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.15s;
+    }
+
+    .quiz-option:hover { border-color: var(--accent); }
+    .quiz-option.selected-correct { border-color: var(--success); background: var(--success-soft); }
+    .quiz-option.selected-wrong { border-color: var(--danger); background: var(--danger-soft); }
+
+    .quiz-feedback {
+      margin-top: 10px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+    }
+
+    .quiz-feedback.ok { background: var(--success-soft); border-left: 4px solid var(--success); }
+    .quiz-feedback.ng { background: var(--danger-soft); border-left: 4px solid var(--danger); }
+
+    /* Column Box */
+    .column-box {
+      background: var(--bg-column);
+      border: 1px solid #d97706;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 24px 0;
+      font-size: calc(14.5px * var(--font-scale));
+    }
+
+    .column-title {
+      font-weight: 700;
+      color: var(--warn);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* User Note Box */
+    .note-box {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .note-box textarea {
+      width: 100%;
+      min-height: 84px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      resize: vertical;
+    }
+
+    /* Bottom Navigation */
+    .page-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 13.5px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+
+    .nav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .nav-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      z-index: 60;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal-card {
+      background: var(--bg-paper);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      max-width: 820px;
+      width: 100%;
+      max-height: 85vh;
+      max-height: 85dvh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .formula-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+    }
+
+    .formula-card {
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+    }
+
+    .formula-card:hover { border-color: var(--accent); }
+
+    /* Built-in Self-Contained Math Typesetting (Safari & Offline Safe) */
+    .math-display {
+      display: block;
+      text-align: center;
+      font-family: 'Times New Roman', 'Hiragino Mincho ProN', Georgia, serif;
+      font-size: 1.15em;
+      padding: 6px 0;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+    .math-inline {
+      font-family: 'Times New Roman', 'Hiragino Mincho ProN', Georgia, serif;
+      font-size: 1.04em;
+      padding: 0 1px;
+    }
+    .math-frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      font-size: 0.9em;
+      line-height: 1.15;
+    }
+    .math-frac > .num {
+      border-bottom: 1.2px solid currentColor;
+      padding: 0 4px 2px;
+    }
+    .math-frac > .den {
+      padding: 2px 4px 0;
+    }
+    .math-sqrt {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+    }
+    .math-sqrt-rad { font-size: 1.15em; margin-right: 1px; }
+    .math-sqrt-body { border-top: 1.2px solid currentColor; padding: 1px 3px 0; }
+    .math-vec { display: inline-block; position: relative; }
+    .math-vec::before {
+      content: "→";
+      position: absolute;
+      top: -0.65em;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.65em;
+      line-height: 1;
+    }
+    .math-over { text-decoration: overline; }
+
+    /* Mobile Drawer */
+    .mobile-menu-btn { display: none; }
+    .sidebar-overlay { display: none; }
+
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .quiz-option { min-height: 44px; }
+    .quiz-option.answered-correct { border-color: var(--success); background: var(--success-soft); }
+
+    @media print {
+      .topbar, .sidebar, .sidebar-overlay, .page-nav, .note-box, .section-actions, .solution-toggle { display: none !important; }
+      .workspace { display: block; }
+      .reader-container { padding: 0; }
+      .paper-sheet { box-shadow: none; border: none; max-width: none; }
+      .solution-body { display: block !important; }
+      body { background: #fff; }
+    }
+
+    @media (max-width: 960px) {
+      .mobile-menu-btn { display: inline-flex; }
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 60px;
+        z-index: 50;
+        transform: translateX(-100%);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.18);
+      }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-overlay.open {
+        display: block;
+        position: fixed;
+        inset: 60px 0 0 0;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 45;
+      }
+      .paper-sheet { padding: 24px 18px 36px; }
+      .reader-container { padding: 14px 10px 48px; }
+    }
+
+    /* Mobile header: two rows (brand row + wrapping toolbar) so nothing is squeezed or clipped */
+    @media (max-width: 960px) {
+      .topbar-inner {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 60px;
+        padding: 8px 12px;
+        row-gap: 8px;
+      }
+      .brand { flex: 1 1 auto; }
+      .brand-title { white-space: normal; overflow: visible; text-overflow: clip; }
+      .brand-sub { display: none; }
+      .toolbar {
+        flex: 1 1 100%;
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      /* Closed drawer is fully removed from layout until opened from the menu button */
+      .sidebar { display: none; }
+      .sidebar.open { display: block; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button id="menuToggleBtn" class="tool-btn mobile-menu-btn" aria-label="目次を開く">☰ 目次</button>
+        <div class="brand-badge">物</div>
+        <div style="min-width:0;">
+          <div class="brand-title">高等学校 物理 ― デジタル教科書</div>
+          <span class="brand-sub">新課程 物理基礎・物理 全5編16節（教科書編・Safari最適化版）</span>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button id="redSheetBtn" class="tool-btn" title="重要語句を隠して暗記チェック">🟥 赤シート</button>
+        <button id="formulaModalBtn" class="tool-btn" title="全単元の公式一覧">📐 公式集</button>
+        <button id="bookmarkFilterBtn" class="tool-btn" title="しおりを付けたページ一覧">🔖 しおり (<span id="bookmarkCount">0</span>)</button>
+        <button id="fontSizeBtn" class="tool-btn" title="文字サイズ変更">Aa 標準</button>
+        <button id="themeBtn" class="tool-btn" title="紙面テーマ切替">☀️ 標準</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="workspace">
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <aside id="sidebar" class="sidebar" aria-label="教科書目次">
+      <div class="sidebar-search">
+        <span class="sidebar-search-icon">🔍</span>
+        <input id="tocSearch" type="search" placeholder="単元・公式・キーワード検索..." />
+      </div>
+
+      <div class="filter-pills">
+        <button class="filter-pill active" data-filter="all">すべて</button>
+        <button class="filter-pill" data-filter="kiso">物理基礎</button>
+        <button class="filter-pill" data-filter="butsuri">物理(発展)</button>
+      </div>
+
+      <div class="progress-summary">
+        <div style="display:flex; justify-content:space-between; font-weight:600;">
+          <span>学習進捗</span>
+          <span id="progressText">0 / 16 節 読了</span>
+        </div>
+        <div class="progress-bar-track">
+          <div id="progressBar" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+        <div id="quizScoreText" style="margin-top:7px; font-weight:600;">確認問題 0 / 32 正解</div>
+      </div>
+
+      <nav id="tocList"></nav>
+    </aside>
+
+    <main class="reader-container">
+      <article id="paperSheet" class="paper-sheet"></article>
+    </main>
+  </div>
+</div>
+
+<div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h2 id="modalTitle" style="margin:0; font-size:17px;">公式集</h2>
+      <button id="modalCloseBtn" class="tool-btn">✕ 閉じる</button>
+    </div>
+    <div id="modalBody" class="modal-body"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const raw = String.raw;
+
+  const UNIT_THEMES = {
+    "第1編 力学": { color: "#2563eb", soft: "#dbeafe", dark: "#1e40af" },
+    "第2編 熱力学": { color: "#ea580c", soft: "#ffedd5", dark: "#9a3412" },
+    "第3編 波動": { color: "#0d9488", soft: "#ccfbf1", dark: "#115e59" },
+    "第4編 電磁気": { color: "#4f46e5", soft: "#e0e7ff", dark: "#3730a3" },
+    "第5編 原子": { color: "#be185d", soft: "#fce7f3", dark: "#9d174d" }
+  };
+
+  const SECTIONS = [
+    // ==================== 第1編 力学 ====================
+    {
+      id: "sec1",
+      unit: "第1編 力学",
+      num: "1-1",
+      level: "kiso",
+      title: "運動の表し方と落体の運動",
+      goals: [
+        "速度と加速度の意味を区別し、v-tグラフの傾きと面積から運動を読み取れる。",
+        "等加速度直線運動の3公式を状況に応じて使い分けられる。",
+        "水平投射・斜方投射を水平方向と鉛直方向に分解して計算できる。"
+      ],
+      hook: "ビルから同時に落とした重い鉄球と軽いプラスチック球（空気抵抗を無視できるとき）は、どちらが先に地面に着くでしょうか？",
+      formulas: [
+        { name: "等加速度直線運動の3公式", tex: raw`v = v_0 + at, \quad x = v_0 t + \frac{1}{2}at^2, \quad v^2 - v_0^2 = 2ax`, note: raw`$v_0$：初速度 $[\mathrm{m/s}]$、$a$：加速度 $[\mathrm{m/s^2}]$、$t$：時間 $[\mathrm{s}]$、$x$：変位 $[\mathrm{m}]$` },
+        { name: "斜方投射の位置・速度", tex: raw`x = (v_0\cos\theta)t, \quad y = (v_0\sin\theta)t - \frac{1}{2}gt^2`, note: raw`$g \approx 9.8\,\mathrm{m/s^2}$（重力加速度）、$\theta$：水平面からの投射角` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 位置・変位・速度と加速度</h3>
+        <p class="prose-p">物体の運動を数式で表すには、まず座標軸を定めます。時刻 $t_1$ から $t_2$ の間に位置が $x_1$ から $x_2$ へ変化したとき、位置の変化量 $\Delta x = x_2 - x_1$ を<span class="key-term">変位</span>といいます。移動距離（道のり）とは異なり、変位は向きを含むベクトル量です。</p>
+        <p class="prose-p">単位時間あたりの変位が<span class="key-term">速度</span> $v = \frac{\Delta x}{\Delta t}$、単位時間あたりの速度の変化が<span class="key-term">加速度</span> $a = \frac{\Delta v}{\Delta t}$（単位：$\mathrm{m/s^2}$）です。加速度が一定の直線運動を<span class="key-term">等加速度直線運動</span>と呼びます。</p>
+        <h3 class="prose-heading">2. $v$-$t$グラフから公式を導く</h3>
+        <p class="prose-p">横軸に時間 $t$、縦軸に速度 $v$ をとった<span class="key-term">$v$-$t$グラフ</span>では、<strong>傾きが加速度 $a$</strong>、<strong>グラフと時間軸で囲まれた台形の面積が変位 $x$</strong> を表します。台形の面積公式「$\frac{1}{2}(\text{上底}+\text{下底})\times\text{高さ}$」に $v_0$、$v_0+at$、$t$ を代入すると、公式 $x = v_0 t + \frac{1}{2}at^2$ が自然に導かれます。</p>
+        <div class="figure-box">
+          <svg viewBox="0 0 560 200" width="560" height="200" aria-label="v-tグラフの傾きと面積">
+            <g transform="translate(35,20)">
+              <polygon points="30,110 190,40 190,140 30,140" fill="rgba(37,99,235,0.14)"/>
+              <line x1="30" y1="140" x2="220" y2="140" stroke="#475569" stroke-width="2"/>
+              <line x1="30" y1="140" x2="30" y2="10" stroke="#475569" stroke-width="2"/>
+              <line x1="30" y1="110" x2="190" y2="40" stroke="#2563eb" stroke-width="3"/>
+              <line x1="30" y1="110" x2="190" y2="110" stroke="#94a3b8" stroke-dasharray="4 3"/>
+              <line x1="190" y1="40" x2="190" y2="140" stroke="#94a3b8" stroke-dasharray="4 3"/>
+              <text x="225" y="144" font-size="13" fill="#475569" font-weight="600">t</text>
+              <text x="16" y="16" font-size="13" fill="#475569" font-weight="600">v</text>
+              <text x="10" y="114" font-size="12" fill="#1e293b">v₀</text>
+              <text x="186" y="156" font-size="12" fill="#1e293b">t</text>
+              <text x="88" y="130" font-size="12" fill="#2563eb" font-weight="700">面積 = 変位 x</text>
+              <text x="100" y="62" font-size="12" fill="#be123c" font-weight="700">傾き = 加速度 a</text>
+            </g>
+            <g transform="translate(310,20)">
+              <line x1="20" y1="140" x2="220" y2="140" stroke="#475569" stroke-width="2"/>
+              <line x1="20" y1="140" x2="20" y2="10" stroke="#475569" stroke-width="2"/>
+              <path d="M 20 140 Q 110 10 200 140" fill="none" stroke="#0284c7" stroke-width="3"/>
+              <circle cx="65" cy="76" r="5" fill="#0284c7"/>
+              <line x1="65" y1="76" x2="105" y2="76" stroke="#0f766e" stroke-width="2"/>
+              <line x1="65" y1="76" x2="65" y2="48" stroke="#be123c" stroke-width="2"/>
+              <text x="108" y="80" font-size="11" fill="#0f766e" font-weight="700">vₓ = v₀cosθ (一定)</text>
+              <text x="72" y="48" font-size="11" fill="#be123c" font-weight="700">vᵧ</text>
+              <text x="90" y="156" font-size="12" fill="#475569">水平方向：等速直線運動</text>
+            </g>
+          </svg>
+          <div class="figure-caption">図1.1　$v$-$t$グラフの傾きと面積（左）および斜方投射の速度分解（右）</div>
+        </div>
+        <h3 class="prose-heading">3. 落体の運動と放物運動</h3>
+        <p class="prose-p">空気抵抗が無視できるとき、すべての物体は質量によらず一定の<span class="key-term">重力加速度</span> $g \approx 9.8\,\mathrm{m/s^2}$ で落下します。初速度 $0$ で落とす運動が<span class="key-term">自由落下</span>、水平方向に初速度を与えて投げる運動が<span class="key-term">水平投射</span>、斜め上向きに投げる運動が<span class="key-term">斜方投射</span>です。放物運動では「水平方向＝等速直線運動」「鉛直方向＝等加速度直線運動」として独立に解くのが鉄則です。</p>
+        <div class="pitfall-box">
+          <div class="pitfall-title">⚠️ つまずき注意！正の向きの決め方と符号</div>
+          鉛直投げ上げや斜方投射では、最初に「上向きを正」と決めたら、重力加速度は下向きなので必ず <strong>$a = -g$</strong> と負の符号をつけます。最高点では一瞬だけ $v_y = 0$ になりますが、加速度は $0$ ではなく $-g$ のままです。
+        </div>
+      `,
+      simId: "sim-projectile",
+      example: {
+        q: raw`地上から初速度 $v_0 = 19.6\,\mathrm{m/s}$ で、水平面と $30^\circ$ の角をなす斜め上向きに小球を投げた。重力加速度の大きさを $g = 9.8\,\mathrm{m/s^2}$ として、最高点の高さ $H$ と水平到達距離 $R$ を求めよ。`,
+        a: raw`<strong>【Step 1：初速度を分解する】</strong><br>
+        水平成分：$v_{0x} = 19.6\cos 30^\circ = 9.8\sqrt{3}\,\mathrm{m/s}$、鉛直成分：$v_{0y} = 19.6\sin 30^\circ = 9.8\,\mathrm{m/s}$。<br>
+        <strong>【Step 2：最高点の高さ $H$】</strong><br>
+        最高点では $v_y = 0$ より $0^2 - 9.8^2 = -2 \times 9.8 \times H \implies H = \mathbf{4.9\,\mathrm{m}}$。<br>
+        <strong>【Step 3：滞空時間 $T$ と水平到達距離 $R$】</strong><br>
+        最高点までの時間 $t_1$ は $0 = 9.8 - 9.8t_1 \implies t_1 = 1.0\,\mathrm{s}$。対称性より全滞空時間は $T = 2.0\,\mathrm{s}$。よって $R = v_{0x}T = 9.8\sqrt{3}\times 2.0 \approx \mathbf{33.9\,\mathrm{m}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】自由落下を始めた物体が、落下開始から $3.0\,\mathrm{s}$ 間に落下する距離は何 $\mathrm{m}$ か。（$g = 9.8\,\mathrm{m/s^2}$）`,
+          options: ["14.7 m", "29.4 m", "44.1 m", "88.2 m"],
+          answer: 2,
+          exp: raw`自由落下の変位は $y = \frac{1}{2}gt^2 = \frac{1}{2} \times 9.8 \times 3.0^2 = 4.9 \times 9 = 44.1\,\mathrm{m}$ です。`
+        },
+        {
+          q: raw`【応用】初速度 $v_0$ で斜方投射するとき、空気抵抗を無視すれば水平到達距離 $R$ が最大になる投射角 $\theta$ は何度か。`,
+          options: ["30°", "45°", "60°", "75°"],
+          answer: 1,
+          exp: raw`水平到達距離は $R = \frac{v_0^2 \sin 2\theta}{g}$ と表せるため、$\sin 2\theta = 1$ となる $\theta = 45^\circ$ のとき最大になります。`
+        }
+      ],
+      column: "ガリレオ・ガリレイはピサの斜塔の思考実験や斜面を転がる球の実験によって、重い物体も軽い物体も同じ加速度で落下することを見抜き、近代物理学の基礎を築きました。"
+    },
+    {
+      id: "sec2",
+      unit: "第1編 力学",
+      num: "1-2",
+      level: "kiso",
+      title: "力と運動の法則",
+      goals: [
+        "物体にはたらく力を漏れなく図示し、合力とつりあいの式を立てられる。",
+        "ニュートンの運動の3法則（慣性・運動方程式・作用反作用）を説明できる。",
+        "静止摩擦力と動摩擦力、弾性力、浮力を運動方程式に組み込める。"
+      ],
+      hook: "氷の上で押されたパックはなぜ止まらずに滑り続けるのに、床の上の箱はすぐに止まってしまうのでしょうか？",
+      formulas: [
+        { name: "運動方程式（ニュートンの第2法則）", tex: raw`m\vec{a} = \vec{F}`, note: raw`$m$：質量 $[\mathrm{kg}]$、$\vec{a}$：加速度 $[\mathrm{m/s^2}]$、$\vec{F}$：合力 $[\mathrm{N}]$` },
+        { name: "フックの法則・摩擦力・浮力", tex: raw`F = kx, \quad f_{\max} = \mu N, \quad f' = \mu' N, \quad F_{\text{浮}} = \rho V g`, note: raw`$k$：ばね定数、$\mu, \mu'$：静止・動摩擦係数、$N$：垂直抗力、$\rho$：流体密度、$V$：排除体積` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 運動の3法則</h3>
+        <p class="prose-p"><strong>第1法則（<span class="key-term">慣性の法則</span>）</strong>：物体に力がはたらかないか合力が $0$ のとき、静止している物体は静止し続け、運動している物体は<span class="key-term">等速直線運動</span>を続けます。</p>
+        <p class="prose-p"><strong>第2法則（<span class="key-term">運動の法則</span>）</strong>：物体の加速度 $\vec{a}$ は合力 $\vec{F}$ に比例し、質量 $m$ に反比例します（$m\vec{a} = \vec{F}$）。</p>
+        <p class="prose-p"><strong>第3法則（<span class="key-term">作用・反作用の法則</span>）</strong>：2物体が力を及ぼしあうとき、その2力は同一直線上で大きさが等しく、向きが反対です。</p>
+        <div class="figure-box">
+          <svg viewBox="0 0 540 180" width="540" height="180" aria-label="斜面の力の分解">
+            <polygon points="80,150 420,150 420,50" fill="rgba(148,163,184,0.18)" stroke="#475569" stroke-width="2"/>
+            <g transform="translate(260,97) rotate(-16.4)">
+              <rect x="-25" y="-20" width="50" height="30" rx="3" fill="#3b82f6" stroke="#1e3a8a" stroke-width="2"/>
+            </g>
+            <line x1="260" y1="97" x2="260" y2="165" stroke="#be123c" stroke-width="2.5"/>
+            <text x="266" y="164" font-size="12" fill="#be123c" font-weight="700">mg</text>
+            <line x1="260" y1="97" x2="242" y2="38" stroke="#0f766e" stroke-width="2.5"/>
+            <text x="200" y="42" font-size="12" fill="#0f766e" font-weight="700">垂直抗力 N</text>
+            <line x1="260" y1="97" x2="205" y2="113" stroke="#d97706" stroke-width="2" stroke-dasharray="4 2"/>
+            <text x="148" y="105" font-size="11" fill="#b45309" font-weight="700">mg sinθ</text>
+            <text x="105" y="143" font-size="12" fill="#475569" font-weight="700">θ</text>
+          </svg>
+          <div class="figure-caption">図1.2　傾角 $\theta$ の斜面上の物体にはたらく力（重力 $mg$ を斜面方向と垂直方向に分解）</div>
+        </div>
+        <h3 class="prose-heading">2. 摩擦力の比較</h3>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>摩擦の種類</th><th>大きさの表し方</th><th>特徴</th></tr></thead>
+            <tbody>
+              <tr><td><strong><span class="key-term">静止摩擦力</span></strong></td><td>$0 \le f \le \mu N$</td><td>物体が動かない間、外力とつりあうように大きさが変化する。</td></tr>
+              <tr><td><strong><span class="key-term">最大摩擦力</span></strong></td><td>$f_{\max} = \mu N$</td><td>物体が滑り出す直前の限界の摩擦力。</td></tr>
+              <tr><td><strong><span class="key-term">動摩擦力</span></strong></td><td>$f' = \mu' N$</td><td>滑っている間にはたらく一定の力（通常 $\mu' < \mu$）。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pitfall-box">
+          <div class="pitfall-title">⚠️ つまずき注意！「つりあいの2力」と「作用・反作用」の違い</div>
+          机の上の本にはたらく「重力」と「机からの垂直抗力」は同じ大きさ・逆向きですが、<strong>1つの物体（本）にはたらく2力</strong>なので「つりあいの関係」です。「作用・反作用」は必ず<strong>異なる2物体間</strong>（例：本が机を押す力と、机が本を押し返す垂直抗力）ではたらきます。
+        </div>
+      `,
+      example: {
+        q: raw`傾角 $30^\circ$ のなめらかな斜面上に質量 $2.0\,\mathrm{kg}$ の物体を静かに置いた。物体が斜面を下る加速度の大きさ $a$ を求めよ。（$g = 9.8\,\mathrm{m/s^2}$）`,
+        a: raw`<strong>【Step 1：力を図示・分解する】</strong>重力の斜面下向き成分は $mg\sin 30^\circ$、垂直成分は $mg\cos 30^\circ$。<br>
+        <strong>【Step 2：運動方程式を立てる】</strong>斜面下向きを正として $ma = mg\sin 30^\circ$。<br>
+        両辺を $m$ で割ると $a = g\sin 30^\circ = 9.8 \times \frac{1}{2} = \mathbf{4.9\,\mathrm{m/s^2}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】質量 $4.0\,\mathrm{kg}$ の物体に右向きに $18\,\mathrm{N}$、左向きに $6.0\,\mathrm{N}$ の力が同時にはたらいているとき、生じる加速度の大きさは何 $\mathrm{m/s^2}$ か。`,
+          options: ["1.5 m/s²", "3.0 m/s²", "4.5 m/s²", "6.0 m/s²"],
+          answer: 1,
+          exp: raw`合力は $F = 18 - 6.0 = 12\,\mathrm{N}$（右向き）。運動方程式 $ma = F$ より $a = 12 / 4.0 = 3.0\,\mathrm{m/s^2}$ です。`
+        },
+        {
+          q: raw`【応用】水平な床に置かれた質量 $5.0\,\mathrm{kg}$ の箱を水平に $15\,\mathrm{N}$ の力で引いたところ、箱は動かなかった。このとき箱にはたらく静止摩擦力の大きさは何 $\mathrm{N}$ か。（静止摩擦係数 $\mu = 0.40, g = 9.8\,\mathrm{m/s^2}$）`,
+          options: ["15 N", "19.6 N", "20 N", "49 N"],
+          answer: 0,
+          exp: raw`最大摩擦力は $f_{\max} = 0.40 \times 5.0 \times 9.8 = 19.6\,\mathrm{N}$ であり、引く力 $15\,\mathrm{N}$ より大きいため動きません。動かない間の静止摩擦力は引く力とつりあう $15\,\mathrm{N}$ です。`
+        }
+      ],
+      column: "車のエアバッグやシートベルトは、慣性の法則によって前方に飛び出そうとする乗員を安全に受け止め、衝突時間を延ばして衝撃力を小さくする仕組みです。"
+    },
+    {
+      id: "sec3",
+      unit: "第1編 力学",
+      num: "1-3",
+      level: "kiso",
+      title: "仕事と力学的エネルギー",
+      goals: [
+        "力と移動の向きに角度がある場合の仕事 W = Fx cosθ を計算できる。",
+        "仕事と運動エネルギーの関係（ΔK = W）を理解する。",
+        "保存力と非保存力を見分け、力学的エネルギー保存則を適用できる。"
+      ],
+      hook: "ジェットコースターが最初の高い坂を登ったあと、動力なしでループを駆け抜けられるのはなぜでしょうか？",
+      formulas: [
+        { name: "仕事と仕事率", tex: raw`W = Fx\cos\theta, \quad P = \frac{W}{t} = Fv`, note: raw`$W$：仕事 $[\mathrm{J}]$、$P$：仕事率 $[\mathrm{W}]$` },
+        { name: "力学的エネルギー保存則", tex: raw`\frac{1}{2}mv^2 + mgh + \frac{1}{2}kx^2 = \text{一定}`, note: raw`保存力（重力・弾性力）のみが仕事をするとき、運動エネルギー $K$ と位置エネルギー $U$ の和は一定` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 仕事と運動エネルギー</h3>
+        <p class="prose-p">物体に一定の力 $F$ を加えて力の向きと角 $\theta$ をなす向きに距離 $x$ だけ動かしたとき、力がした<span class="key-term">仕事</span>は $W = Fx\cos\theta$（単位：<span class="key-term">ジュール</span> $\mathrm{J}$）です。移動方向と垂直な力（$\theta = 90^\circ$、例：垂直抗力）は仕事をしません。また、運動する物体がもつ<span class="key-term">運動エネルギー</span>は $K = \frac{1}{2}mv^2$ であり、物体にされた全仕事だけ運動エネルギーが増減します（$\Delta K = W_{\text{全}}$）。</p>
+        <h3 class="prose-heading">2. 力学的エネルギーの保存と非保存力</h3>
+        <p class="prose-p">重力による<span class="key-term">位置エネルギー</span> $U_g = mgh$ と弾性力による位置エネルギー $U_e = \frac{1}{2}kx^2$ のように、経路によらず始点と終点だけで仕事が決まる力を<span class="key-term">保存力</span>といいます。保存力以外の力（摩擦力や空気抵抗など）が仕事をしないとき、<span class="key-term">力学的エネルギー保存則</span>が成り立ちます。もし非保存力が仕事 $W_{\text{非}}$ をする場合は、$E_{\text{後}} - E_{\text{前}} = W_{\text{非}}$ となります。</p>
+        <div class="pitfall-box">
+          <div class="pitfall-title">⚠️ つまずき注意！ばねの位置エネルギーの基準点</div>
+          重力による位置エネルギーは好きな高さを基準（$h=0$）にできますが、ばねの弾性エネルギー $\frac{1}{2}kx^2$ の $x$ は必ず<strong>「ばねの自然長からの伸び・縮み」</strong>を入れます。
+        </div>
+      `,
+      example: {
+        q: raw`高さ $5.0\,\mathrm{m}$ のなめらかな斜面の頂上から質量 $1.0\,\mathrm{kg}$ の小球を静かに放した。最下点での速さ $v$ を求めよ。（$g = 9.8\,\mathrm{m/s^2}$）`,
+        a: raw`<strong>【解答】</strong>最下点を位置エネルギーの基準（$h=0$）にとると、力学的エネルギー保存則より<br>
+        $0 + mgh = \frac{1}{2}mv^2 + 0 \implies v = \sqrt{2gh} = \sqrt{2 \times 9.8 \times 5.0} = \sqrt{98} = \mathbf{7\sqrt{2} \approx 9.9\,\mathrm{m/s}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】質量 $2.0\,\mathrm{kg}$ の物体を速さ $4.0\,\mathrm{m/s}$ から $6.0\,\mathrm{m/s}$ まで加速させるのに必要な仕事は何 $\mathrm{J}$ か。`,
+          options: ["10 J", "16 J", "20 J", "36 J"],
+          answer: 2,
+          exp: raw`仕事は運動エネルギーの変化に等しいため、$W = \frac{1}{2} \times 2.0 \times 6.0^2 - \frac{1}{2} \times 2.0 \times 4.0^2 = 36 - 16 = 20\,\mathrm{J}$ です。`
+        },
+        {
+          q: raw`【応用】粗い水平面上を速さ $v$ で滑る物体が、動摩擦力を受けて距離 $L$ だけ進んで止まった。初速度を $2v$ にすると、止まるまでに進む距離は何倍になるか。`,
+          options: ["2 倍", "4 倍", "6 倍", "8 倍"],
+          answer: 1,
+          exp: raw`運動エネルギー $\frac{1}{2}mv^2$ が動摩擦力の仕事 $\mu' mg L$ によってすべて失われるため、$L \propto v^2$ となり、速さが2倍なら距離は4倍になります（車の制動距離と同じ原理）。`
+        }
+      ],
+      column: "水力発電は、ダムの高い位置にある水が持つ位置エネルギーを落下の運動エネルギーに変え、水車（タービン）を回して電気エネルギーへ変換しています。"
+    },
+    {
+      id: "sec4",
+      unit: "第1編 力学",
+      num: "1-4",
+      level: "butsuri",
+      title: "剛体のつりあいと運動量",
+      goals: [
+        "力のモーメント（うでの長さ×力）を計算し、剛体のつりあい条件を立てられる。",
+        "運動量と力積の関係をベクトル（向きを含めて）で扱える。",
+        "運動量保存則と反発係数の式を連立して衝突後の速度を求められる。"
+      ],
+      hook: "ドアノブが蝶番（ちょうつがい）から最も遠い端に取り付けられているのはなぜでしょうか？",
+      formulas: [
+        { name: "力のモーメントと剛体のつりあい", tex: raw`M = Fl, \quad \sum \vec{F} = \vec{0}, \quad \sum M = 0`, note: raw`$l$：回転軸から力の作用線までの垂線の長さ（うでの長さ）` },
+        { name: "運動量保存則と反発係数", tex: raw`m_1 v_1 + m_2 v_2 = m_1 v_1' + m_2 v_2', \quad e = -\frac{v_1' - v_2'}{v_1 - v_2}`, note: raw`力積 $\vec{I} = \vec{F}\Delta t = m\vec{v}' - m\vec{v}$、$e=1$：弾性衝突、$e=0$：完全非弾性衝突` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 剛体のつりあいと重心</h3>
+        <p class="prose-p">力を加えても変形しない大きさのある物体を<span class="key-term">剛体</span>といいます。剛体が静止し続けるには、①力のベクトル和が $0$（並進しない）、②任意の点まわりの<span class="key-term">力のモーメント</span>の和が $0$（回転しない）の2条件が必要です。モーメントの回転軸は「未知の力が最も多く集まる点」に選ぶと計算が楽になります。</p>
+        <h3 class="prose-heading">2. 運動量と力積・衝突</h3>
+        <p class="prose-p">質量と速度の積 $\vec{p} = m\vec{v}$ を<span class="key-term">運動量</span>、力と作用時間の積 $\vec{I} = \vec{F}\Delta t$ を<span class="key-term">力積</span>といいます。2物体が衝突するとき、外力がはたらかなければ内力（作用・反作用）の力積が打ち消し合い、<span class="key-term">運動量保存則</span>が成り立ちます。衝突前後の相対速度の比を<span class="key-term">反発係数</span> $e$ といい、$e=1$ のときは力学的エネルギーも保存する<span class="key-term">弾性衝突</span>になります。</p>
+      `,
+      example: {
+        q: raw`なめらかな水平面上で、右向きに $4.0\,\mathrm{m/s}$ で進む質量 $2.0\,\mathrm{kg}$ の小球Aが、静止している質量 $2.0\,\mathrm{kg}$ の小球Bに正面衝突した。反発係数 $e = 0.50$ のとき、衝突後のA、Bの速度を求めよ。`,
+        a: raw`<strong>【Step 1：運動量保存則】</strong>右向きを正として $2.0 \times 4.0 + 0 = 2.0 v_A + 2.0 v_B \implies v_A + v_B = 4.0$。<br>
+        <strong>【Step 2：反発係数の式】</strong>$0.50 = -\frac{v_A - v_B}{4.0 - 0} \implies v_B - v_A = 2.0$。<br>
+        <strong>【Step 3：連立して解く】</strong>$v_A = \mathbf{1.0\,\mathrm{m/s}}$、$v_B = \mathbf{3.0\,\mathrm{m/s}}$（ともに右向き）。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】長さ $2.0\,\mathrm{m}$ の軽い棒の中点（支点から $1.0\,\mathrm{m}$）に $10\,\mathrm{N}$ のおもりをつるした。右端（支点から $2.0\,\mathrm{m}$）を上向きに何 $\mathrm{N}$ の力で引けば水平につりあうか。`,
+          options: ["2.5 N", "5.0 N", "10 N", "20 N"],
+          answer: 1,
+          exp: raw`支点まわりのモーメントのつりあいより、$10 \times 1.0 = F \times 2.0 \implies F = 5.0\,\mathrm{N}$ です。`
+        },
+        {
+          q: raw`【応用】壁に向かって速さ $10\,\mathrm{m/s}$ で投げた質量 $0.20\,\mathrm{kg}$ のボールが、反発係数 $e = 0.80$ で垂直にはね返った。ボールが壁から受けた力積の大きさは何 $\mathrm{N\cdot s}$ か。`,
+          options: ["0.40 N·s", "1.6 N·s", "2.0 N·s", "3.6 N·s"],
+          answer: 3,
+          exp: raw`はね返り後の速さは $0.80 \times 10 = 8.0\,\mathrm{m/s}$（逆向き）。力積は運動量の変化なので $|0.20\times (-8.0) - 0.20\times 10| = 3.6\,\mathrm{N\cdot s}$ です。`
+        }
+      ],
+      column: "ロケットは燃料ガスを後方へ高速噴射し、その反作用（運動量保存則）で推進力を得ています。空気のない宇宙空間でも加速できるのはこのためです。"
+    },
+    {
+      id: "sec5",
+      unit: "第1編 力学",
+      num: "1-5",
+      level: "butsuri",
+      title: "円運動・単振動・万有引力",
+      goals: [
+        "等速円運動の向心加速度と遠心力の違いを観測者の立場で整理できる。",
+        "ばね振り子・単振り子の周期公式と単振動のエネルギー保存を使える。",
+        "ケプラーの法則と万有引力による人工衛星の運動を計算できる。"
+      ],
+      hook: "地球のまわりを回る人工衛星は、なぜ地球に落ちてこないのでしょうか？",
+      formulas: [
+        { name: "等速円運動の加速度と向心力", tex: raw`v = r\omega, \quad a = r\omega^2 = \frac{v^2}{r}, \quad F = m\frac{v^2}{r}`, note: raw`$\omega = \frac{2\pi}{T} = 2\pi f$：角速度 $[\mathrm{rad/s}]$` },
+        { name: "単振動の周期と万有引力", tex: raw`T = 2\pi\sqrt{\frac{m}{k}}\text{（ばね）}, \quad T = 2\pi\sqrt{\frac{l}{g}}\text{（単振り子）}, \quad F = G\frac{Mm}{r^2}`, note: raw`$G = 6.67\times 10^{-11}\,\mathrm{N\cdot m^2/kg^2}$（万有引力定数）` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 等速円運動と遠心力</h3>
+        <p class="prose-p">半径 $r$ の円周上を一定の速さ $v$ で回る<span class="key-term">等速円運動</span>では、速度の向きが絶えず変化するため、常に円の中心向きの加速度 $a = r\omega^2 = v^2/r$ が生じます。この加速度を生じさせる中心向きの合力を<span class="key-term">向心力</span>といいます。一方、一緒に回転する観測者から見るときは、外向きの見かけの力である<span class="key-term">遠心力</span> $mr\omega^2$ を導入して「つりあい」として扱います。</p>
+        <h3 class="prose-heading">2. 単振動</h3>
+        <p class="prose-p">つりあいの位置からの変位 $x$ に比例する中心向きの力（<span class="key-term">復元力</span> $F = -Kx$）がはたらく往復運動を<span class="key-term">単振動</span>といいます。角振動数 $\omega = \sqrt{K/m}$、周期 $T = 2\pi\sqrt{m/K}$ となり、<strong>振幅 $A$ によらず周期が一定（等時性）</strong>です。</p>
+        <h3 class="prose-heading">3. 万有引力とケプラーの法則</h3>
+        <p class="prose-p">すべての質量をもつ物体の間には<span class="key-term">万有引力</span> $F = G\frac{Mm}{r^2}$ がはたらきます。無限遠を基準とした万有引力による位置エネルギーは $U = -G\frac{Mm}{r}$ で表され、楕円軌道では<span class="key-term">面積速度一定の法則</span>（ケプラーの第2法則）が成り立ちます。</p>
+      `,
+      example: {
+        q: raw`ばね定数 $k = 40\,\mathrm{N/m}$ のばねに質量 $m = 0.10\,\mathrm{kg}$ のおもりをつけて単振動させたときの周期 $T$ を求めよ。（円周率 $\pi \approx 3.14$）`,
+        a: raw`<strong>【解答】</strong>ばね振り子の周期の公式より<br>
+        $T = 2\pi\sqrt{\frac{m}{k}} = 2 \times 3.14 \times \sqrt{\frac{0.10}{40}} = 6.28 \times \frac{1}{20} = \mathbf{0.314\,\mathrm{s}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】単振り子の周期を2倍にするには、糸の長さを何倍にすればよいか。`,
+          options: ["1/2 倍", "2 倍", "4 倍", "8 倍"],
+          answer: 2,
+          exp: raw`周期 $T = 2\pi\sqrt{l/g}$ は糸の長さ $l$ の平方根に比例するため、周期を2倍にするには長さを $2^2 = 4$ 倍にする必要があります。`
+        },
+        {
+          q: raw`【応用】地球の表面すれすれを回る人工衛星の速さ（第一宇宙速度）は約いくらか。`,
+          options: ["約 1.1 km/s", "約 7.9 km/s", "約 11.2 km/s", "約 30 km/s"],
+          answer: 1,
+          exp: raw`$\frac{mv^2}{R} = mg \implies v = \sqrt{gR} \approx \sqrt{9.8 \times 6.4\times 10^6} \approx 7.9\,\mathrm{km/s}$ です。`
+        }
+      ],
+      column: "GPS衛星は高度約20,200 kmを約12時間周期で周回しています。正確な位置測位には、万有引力による軌道計算だけでなく相対性理論による時刻補正も使われています。"
+    },
+
+    // ==================== 第2編 熱力学 ====================
+    {
+      id: "sec6",
+      unit: "第2編 熱力学",
+      num: "2-1",
+      level: "kiso",
+      title: "熱と温度・熱力学第1法則",
+      goals: [
+        "セルシウス温度と絶対温度の関係（T = t + 273）を理解する。",
+        "理想気体の状態方程式 PV = nRT を用いて状態量を計算できる。",
+        "4つの状態変化（定積・定圧・等温・断熱）と熱力学第1法則を整理できる。"
+      ],
+      hook: "自転車の空気入れでタイヤに空気を入れると、ポンプの先端が熱くなるのはなぜでしょうか？",
+      formulas: [
+        { name: "熱量保存・状態方程式", tex: raw`Q = mc\Delta T, \quad PV = nRT`, note: raw`$c$：比熱 $[\mathrm{J/(g\cdot K)}]$、$n$：物質量 $[\mathrm{mol}]$、$R = 8.31\,\mathrm{J/(mol\cdot K)}$` },
+        { name: "熱力学第1法則", tex: raw`\Delta U = Q + W_{\text{された}} = Q - W_{\text{した}}`, note: raw`単原子分子理想気体の内部エネルギー $U = \frac{3}{2}nRT = \frac{3}{2}PV$` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 温度と熱量・状態方程式</h3>
+        <p class="prose-p">原子・分子の熱運動の激しさを表す尺度が<span class="key-term">温度</span>であり、熱運動が完全に止まる $-273.15^\circ\mathrm{C}$ を $0\,\mathrm{K}$ としたものを<span class="key-term">絶対温度</span> $T\,[\mathrm{K}]$ といいます。理想気体では圧力 $P$、体積 $V$、物質量 $n$、絶対温度 $T$ の間に<span class="key-term">理想気体の状態方程式</span> $PV = nRT$ が成り立ちます。</p>
+        <h3 class="prose-heading">2. 熱力学第1法則と4つの状態変化</h3>
+        <p class="prose-p">気体が外部から熱量 $Q$ を吸収し、外部へ仕事 $W_{\text{した}}$ をしたとき、気体の<span class="key-term">内部エネルギー</span>の変化 $\Delta U$ との間にエネルギー保存則である<span class="key-term">熱力学第1法則</span> $\Delta U = Q - W_{\text{した}}$ が成り立ちます。</p>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>変化の種類</th><th>一定の量</th><th>仕事 $W_{\text{した}}$</th><th>特徴・第1法則</th></tr></thead>
+            <tbody>
+              <tr><td><strong><span class="key-term">定積変化</span></strong></td><td>$V$ 一定</td><td>$0$</td><td>加えた熱はすべて内部エネルギー変化になる（$Q = \Delta U$）</td></tr>
+              <tr><td><strong><span class="key-term">定圧変化</span></strong></td><td>$P$ 一定</td><td>$P\Delta V$</td><td>$P$-$V$図の長方形の面積が仕事になる</td></tr>
+              <tr><td><strong><span class="key-term">等温変化</span></strong></td><td>$T$ 一定</td><td>$nRT\ln(V_2/V_1)$</td><td>$\Delta U = 0$ なので $Q = W_{\text{した}}$</td></tr>
+              <tr><td><strong><span class="key-term">断熱変化</span></strong></td><td>熱の出入り $0$</td><td>$-\Delta U$</td><td>$Q = 0$。圧縮すると温度が上がり、膨張すると下がる</td></tr>
+            </tbody>
+          </table>
+        </div>
+      `,
+      simId: "sim-thermo",
+      example: {
+        q: raw`理想気体に $500\,\mathrm{J}$ の熱を加えたところ、気体は膨張して外部に $200\,\mathrm{J}$ の仕事をした。気体の内部エネルギーの増加 $\Delta U$ はいくらか。`,
+        a: raw`<strong>【解答】</strong>熱力学第1法則 $\Delta U = Q - W_{\text{した}}$ より $\Delta U = 500 - 200 = \mathbf{300\,\mathrm{J}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】気体を外部と熱のやりとりがない状態（断熱変化）で急に圧縮したとき、気体の温度はどうなるか。`,
+          options: ["下がる", "変わらない", "上がる", "0 Kになる"],
+          answer: 2,
+          exp: raw`断熱圧縮では $Q=0$ で外部から正の仕事 $W_{\text{された}} > 0$ をされるため、$\Delta U = W_{\text{された}} > 0$ となり内部エネルギーが増えて温度が上がります。`
+        },
+        {
+          q: raw`【応用】単原子分子理想気体 $1.0\,\mathrm{mol}$ の温度を定積のまま $10\,\mathrm{K}$ 上げるのに必要な熱量はいくらか。（$R = 8.31\,\mathrm{J/(mol\cdot K)}$）`,
+          options: ["83.1 J", "125 J", "166 J", "208 J"],
+          answer: 1,
+          exp: raw`定積変化では $W=0$ なので $Q = \Delta U = \frac{3}{2}nR\Delta T = 1.5 \times 1.0 \times 8.31 \times 10 \approx 125\,\mathrm{J}$ です。`
+        }
+      ],
+      column: "ディーゼルエンジンは点火プラグを使わず、空気を急激に断熱圧縮して高温（約500〜700℃）にし、そこへ燃料を噴射して自然発火させています。"
+    },
+    {
+      id: "sec7",
+      unit: "第2編 熱力学",
+      num: "2-2",
+      level: "butsuri",
+      title: "気体分子運動論と熱機関",
+      goals: [
+        "気体の圧力が分子の壁への衝突の力積から生じることを説明できる。",
+        "絶対温度 T と分子1個の平均運動エネルギーの関係を理解する。",
+        "熱機関の熱効率 e を計算し、熱力学第2法則の意味を説明できる。"
+      ],
+      hook: "部屋の空気が勝手に片隅に集まって真空ができることはないのに、なぜ逆は一瞬で起こるのでしょうか？",
+      formulas: [
+        { name: "気体の圧力と分子の平均運動エネルギー", tex: raw`P = \frac{Nm\overline{v^2}}{3V}, \quad \frac{1}{2}m\overline{v^2} = \frac{3}{2}k_{\mathrm{B}}T = \frac{3}{2}\frac{R}{N_{\mathrm{A}}}T`, note: raw`$k_{\mathrm{B}}$：ボルツマン定数、$N_{\mathrm{A}}$：アボガドロ定数` },
+        { name: "熱機関の熱効率", tex: raw`e = \frac{W_{\text{正味}}}{Q_{\text{in}}} = \frac{Q_{\text{in}} - Q_{\text{out}}}{Q_{\text{in}}} = 1 - \frac{Q_{\text{out}}}{Q_{\text{in}}}`, note: raw`熱力学第2法則により $e < 1$（100%の熱機関は存在しない）` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 気体分子運動論</h3>
+        <p class="prose-p">気体の圧力 $P$ は、多数の気体分子が容器の壁に弾性衝突して与える力積の総和から生じます。このモデルから $PV = \frac{1}{3}Nm\overline{v^2}$ が導かれ、状態方程式 $PV = nRT$ と比較することで、分子1個の平均運動エネルギー $\frac{1}{2}m\overline{v^2} = \frac{3}{2}k_{\mathrm{B}}T$ が得られます。つまり<strong>絶対温度とは分子の運動エネルギーの平均値そのもの</strong>です。</p>
+        <h3 class="prose-heading">2. 熱機関と熱力学第2法則</h3>
+        <p class="prose-p">熱を連続的に仕事に変える装置を<span class="key-term">熱機関</span>といいます。高温熱源から熱 $Q_{\text{in}}$ を得て正味の仕事 $W$ をし、低温熱源へ熱 $Q_{\text{out}}$ を捨てるサイクルにおいて、必ず $Q_{\text{out}} > 0$ となり熱効率 $e$ を $1$（100%）にすることはできません（<span class="key-term">熱力学第2法則</span>・<span class="key-term">不可逆変化</span>）。</p>
+      `,
+      example: {
+        q: raw`ある熱機関が高温熱源から $1000\,\mathrm{J}$ の熱を吸収し、低温熱源へ $650\,\mathrm{J}$ の熱を放出した。この熱機関の熱効率 $e$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>正味の仕事 $W = 1000 - 650 = 350\,\mathrm{J}$。熱効率 $e = \frac{350}{1000} = \mathbf{0.35}$ （35%）。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】気体の絶対温度 $T$ を 4 倍にしたとき、気体分子の二乗平均速度 $\sqrt{\overline{v^2}}$ は何倍になるか。`,
+          options: ["2 倍", "4 倍", "8 倍", "16 倍"],
+          answer: 0,
+          exp: raw`$\frac{1}{2}m\overline{v^2} = \frac{3}{2}k_{\mathrm{B}}T$ より $\overline{v^2} \propto T$ なので、速度は $\sqrt{4} = 2$ 倍になります。`
+        },
+        {
+          q: raw`【応用】同じ温度の酸素分子（分子量32）と水素分子（分子量2）では、分子の二乗平均速度はどちらが何倍速いか。`,
+          options: ["酸素が4倍速い", "水素が4倍速い", "水素が16倍速い", "同じ速さ"],
+          answer: 1,
+          exp: raw`温度が同じなら平均運動エネルギー $\frac{1}{2}m\overline{v^2}$ が等しいため、質量が $1/16$ の水素分子のほうが $\sqrt{16} = 4$ 倍速くなります。`
+        }
+      ],
+      column: "冷蔵庫やエアコンは、電気の仕事を加えて低温側から高温側へ熱をくみ上げる「ヒートポンプ（逆カルノーサイクル）」を応用しています。"
+    },
+
+    // ==================== 第3編 波動 ====================
+    {
+      id: "sec8",
+      unit: "第3編 波動",
+      num: "3-1",
+      level: "kiso",
+      title: "波の性質と正弦波・定常波",
+      goals: [
+        "横波と縦波の違いを理解し、波の基本式 v = fλ を使える。",
+        "正弦波の式 y(x,t) からある時刻・ある位置の媒質の変位と速度を求められる。",
+        "重ね合わせの原理から定常波・反射・屈折の法則を説明できる。"
+      ],
+      hook: "海の波が岸に近づいてきても、沖に浮かぶブイが岸まで流されてこないのはなぜでしょうか？",
+      formulas: [
+        { name: "波の基本式と正弦波の式", tex: raw`v = f\lambda = \frac{\lambda}{T}, \quad y(x,t) = A\sin 2\pi\left(\frac{t}{T} - \frac{x}{\lambda}\right)`, note: raw`$v$：波の速さ、$f$：振動数 $[\mathrm{Hz}]$、$\lambda$：波長 $[\mathrm{m}]$、$A$：振幅` },
+        { name: "屈折の法則", tex: raw`\frac{\sin i}{\sin r} = \frac{v_1}{v_2} = \frac{\lambda_1}{\lambda_2} = n_{12}`, note: raw`$i$：入射角、$r$：屈折角、$n_{12}$：媒質1に対する媒質2の相対屈折率` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 横波・縦波と重ね合わせの原理</h3>
+        <p class="prose-p">波は媒質そのものが移動するのではなく、媒質の振動状態（エネルギー）が伝わる現象です。進行方向と垂直に振動する波を<span class="key-term">横波</span>、平行に振動する波を<span class="key-term">縦波</span>（疎密波）といいます。2つの波が重なり合うとき、合成波の変位はそれぞれの波の変位の和になります（<span class="key-term">重ね合わせの原理</span>）。</p>
+        <h3 class="prose-heading">2. 定常波・反射・干渉</h3>
+        <p class="prose-p">同じ振幅・波長・速さの2つの波が逆向きに進んで重なると、波形が進まずその場で振動する<span class="key-term">定常波</span>ができます（全く振動しない点を<span class="key-term">節</span>、最も大きく振動する点を<span class="key-term">腹</span>といいます）。</p>
+        <div class="pitfall-box">
+          <div class="pitfall-title">⚠️ つまずき注意！固定端反射と自由端反射</div>
+          壁に固定された端での反射（<strong>固定端反射</strong>）では位相が $\pi$（半波長分）ずれて上下がひっくり返りますが、自由に動ける端（<strong>自由端反射</strong>）では位相はずれずそのままの向きで跳ね返ります。
+        </div>
+      `,
+      simId: "sim-wave",
+      example: {
+        q: raw`速さ $12\,\mathrm{m/s}$、振動数 $4.0\,\mathrm{Hz}$ で進む正弦波の波長 $\lambda$ と周期 $T$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>$v = f\lambda$ より $\lambda = \frac{12}{4.0} = \mathbf{3.0\,\mathrm{m}}$。周期 $T = \frac{1}{4.0} = \mathbf{0.25\,\mathrm{s}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】定常波において、隣り合う「腹」と「腹」の間の距離は波長 $\lambda$ の何倍か。`,
+          options: ["1/4 倍", "1/2 倍", "1 倍", "2 倍"],
+          answer: 1,
+          exp: raw`定常波の腹から隣の腹（または節から隣の節）までの距離は $\frac{\lambda}{2}$ です。`
+        },
+        {
+          q: raw`【応用】同位相の2つの波源から出た波長 $2.0\,\mathrm{m}$ の波が点Pで重なっている。点Pまでの距離の差が $5.0\,\mathrm{m}$ のとき、点Pは強めあうか弱めあうか。`,
+          options: ["強めあう", "弱めあう", "どちらでもない", "定常波にならない"],
+          answer: 1,
+          exp: raw`距離の差 $5.0\,\mathrm{m} = 2.5\lambda = (2 + \frac{1}{2})\lambda$（半波長の奇数倍）なので、逆位相で重なり弱めあいます。`
+        }
+      ],
+      column: "ノイズキャンセリングヘッドホンは、周囲の騒音と逆位相の音波をスピーカーから発生させ、波の重ね合わせ（弱めあい）によって騒音を打ち消しています。"
+    },
+    {
+      id: "sec9",
+      unit: "第3編 波動",
+      num: "3-2",
+      level: "kiso",
+      title: "音波・気柱の共鳴・ドップラー効果",
+      goals: [
+        "うなりの回数 f = |f₁ - f₂| を計算できる。",
+        "弦・開管・閉管の固有振動（基本振動・倍振動）の波長と振動数を求められる。",
+        "ドップラー効果の公式の符号を迷わずに適用できる。"
+      ],
+      hook: "救急車が自分の前を通り過ぎるとき、サイレンの音の高さが急に低く変わるのはなぜでしょうか？",
+      formulas: [
+        { name: "弦と気柱の固有振動", tex: raw`f_n = \frac{n}{2l}\sqrt{\frac{S}{\rho}}\text{（弦）}, \quad \lambda_{\text{開}} = \frac{2l}{n}, \quad \lambda_{\text{閉}} = \frac{4l}{2n-1}`, note: raw`閉管では奇数倍振動（1倍・3倍・5倍…）のみ生じる` },
+        { name: "ドップラー効果の公式", tex: raw`f' = \frac{V - v_{\mathrm{o}}}{V - v_{\mathrm{s}}} f`, note: raw`$V$：音速、$v_{\mathrm{s}}$：音源の速度、$v_{\mathrm{o}}$：観測者の速度（音源→観測者の向きを正）` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 音の3要素とうなり</h3>
+        <p class="prose-p">音は空気を媒質とする<span class="key-term">縦波</span>です。振動数 $f_1, f_2$ がわずかに異なる2つの音を同時に鳴らすと、1秒間に $f_{\text{うなり}} = |f_1 - f_2|$ 回の周期的な強弱（<span class="key-term">うなり</span>）が聞こえます。</p>
+        <h3 class="prose-heading">2. 気柱の共鳴とドップラー効果</h3>
+        <p class="prose-p">開管の管口は定常波の<span class="key-term">腹</span>、閉管の閉端は<span class="key-term">節</span>になります。また、音源が動くと前方の波長が縮み（または後方で伸び）、観測者が受け取る波の個数が変化して振動数が変わります。これが<span class="key-term">ドップラー効果</span>です。</p>
+        <div class="figure-box">
+          <svg viewBox="0 0 540 160" width="540" height="160" aria-label="ドップラー効果の波面">
+            <circle cx="290" cy="80" r="65" fill="none" stroke="#0d9488" stroke-width="1.5" stroke-dasharray="4 3"/>
+            <circle cx="310" cy="80" r="45" fill="none" stroke="#0d9488" stroke-width="2"/>
+            <circle cx="330" cy="80" r="25" fill="none" stroke="#0d9488" stroke-width="2.5"/>
+            <circle cx="345" cy="80" r="7" fill="#ef4444"/>
+            <line x1="345" y1="80" x2="395" y2="80" stroke="#ef4444" stroke-width="2.5"/>
+            <text x="355" y="70" font-size="12" fill="#be123c" font-weight="700">音源 vₛ →</text>
+            <text x="395" y="130" font-size="12" fill="#0f766e" font-weight="700">前方：波長λ'が縮む（高い音）</text>
+            <text x="90" y="130" font-size="12" fill="#475569">後方：波長が伸びる（低い音）</text>
+          </svg>
+          <div class="figure-caption">図3.1　動く音源による波面の圧縮とドップラー効果</div>
+        </div>
+      `,
+      example: {
+        q: raw`振動数 $660\,\mathrm{Hz}$ のサイレンを鳴らしながら、救急車が音速 $V = 340\,\mathrm{m/s}$ の空気中を $20\,\mathrm{m/s}$ で静止している観測者に近づいてくるとき、観測者が聞く振動数 $f'$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>音源→観測者の向きを正とすると $v_{\mathrm{s}} = +20\,\mathrm{m/s}$、$v_{\mathrm{o}} = 0$。<br>
+        $f' = \frac{340 - 0}{340 - 20} \times 660 = \frac{340}{320} \times 660 = \mathbf{701.25\,\mathrm{Hz}}$（約 $701\,\mathrm{Hz}$）。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】振動数 $440\,\mathrm{Hz}$ のおんさと振動数不明のおんさを同時に鳴らしたところ、2秒間に6回のうなりが聞こえた。不明のおんさの振動数はいくらか。`,
+          options: ["434 Hz または 446 Hz", "437 Hz または 443 Hz", "438 Hz または 442 Hz", "430 Hz または 450 Hz"],
+          answer: 1,
+          exp: raw`2秒間に6回なので1秒あたりのうなりは $3\,\mathrm{Hz}$。$|440 - f| = 3$ より $437\,\mathrm{Hz}$ または $443\,\mathrm{Hz}$ です。`
+        },
+        {
+          q: raw`【応用】長さ $0.50\,\mathrm{m}$ の閉管の基本振動の波長は何 $\mathrm{m}$ か。（開口端補正は無視する）`,
+          options: ["0.50 m", "1.0 m", "1.5 m", "2.0 m"],
+          answer: 3,
+          exp: raw`閉管の基本振動は管の長さ $l$ が $\frac{\lambda}{4}$ に相当するため、$\lambda = 4l = 4 \times 0.50 = 2.0\,\mathrm{m}$ です。`
+        }
+      ],
+      column: "超音波エコー検査やスピードガン、さらには遠方の銀河が遠ざかる速度を測る「赤方偏移」まで、ドップラー効果は科学技術のあらゆる分野で活躍しています。"
+    },
+    {
+      id: "sec10",
+      unit: "第3編 波動",
+      num: "3-3",
+      level: "butsuri",
+      title: "光波の干渉とレンズ",
+      goals: [
+        "ヤングの干渉実験と回折格子の明線条件を光路差から導ける。",
+        "薄膜の干渉で位相が π ずれる反射条件を見分けられる。",
+        "凸レンズ・凹レンズの写像公式を用いて像の位置・大きさ・種類を判断できる。"
+      ],
+      hook: "シャボン玉の表面が虹色に輝いて見えるのは、シャボン玉に絵の具の色がついているからでしょうか？",
+      formulas: [
+        { name: "ヤングの実験と回折格子", tex: raw`\Delta x = \frac{L\lambda}{d}\text{（ヤング）}, \quad d\sin\theta = m\lambda\text{（回折格子）}`, note: raw`$\Delta x$：明線間隔、$d$：スリット間隔・格子定数、$L$：スクリーンまでの距離` },
+        { name: "レンズの写像公式", tex: raw`\frac{1}{a} + \frac{1}{b} = \frac{1}{f}, \quad m = \left|\frac{b}{a}\right|`, note: raw`$a$：物体までの距離、$b$：像までの距離（虚像は負）、$f$：焦点距離（凹レンズは負）` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 光の干渉（ヤングの実験・回折格子・薄膜）</h3>
+        <p class="prose-p">光は波長約 $380\text{〜}780\,\mathrm{nm}$ の<span class="key-term">電磁波（横波）</span>です。ヤングの実験で明暗の縞模様が現れるのは、光が波動として<span class="key-term">回折</span>し<span class="key-term">干渉</span>するためです。また、シャボン玉などの<span class="key-term">薄膜の干渉</span>では、屈折率の小さい媒質から大きい媒質への反射で<strong>位相が $\pi$（半波長分）ずれる</strong>ため、厚さ $d$・屈折率 $n$ の膜の垂直入射での強めあい条件は $2nd = (m + \frac{1}{2})\lambda$ となります。</p>
+        <h3 class="prose-heading">2. 全反射とレンズの公式</h3>
+        <p class="prose-p">屈折率の大きい媒質から小さい媒質へ光が進むとき、入射角が<span class="key-term">臨界角</span>（$\sin\theta_0 = \frac{n_2}{n_1}$）を超えると光がすべて反射される<span class="key-term">全反射</span>が起こります。</p>
+      `,
+      example: {
+        q: raw`焦点距離 $f = 15\,\mathrm{cm}$ の凸レンズの前方 $30\,\mathrm{cm}$ の位置に物体を置いた。像のできる位置 $b$ と倍率 $m$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>$\frac{1}{30} + \frac{1}{b} = \frac{1}{15} \implies \frac{1}{b} = \frac{1}{30}$。よって後方 $\mathbf{30\,\mathrm{cm}}$ に倒立実像ができ、倍率は $m = \frac{30}{30} = \mathbf{1.0\text{倍}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】ヤングの干渉実験において、赤い光（波長長）を青い光（波長短）に変えると、スクリーン上の明線間隔 $\Delta x$ はどうなるか。`,
+          options: ["広くなる", "狭くなる", "変わらない", "縞が消える"],
+          answer: 1,
+          exp: raw`$\Delta x = \frac{L\lambda}{d}$ より明線間隔は波長 $\lambda$ に比例するため、波長の短い青い光にすると間隔は狭くなります。`
+        },
+        {
+          q: raw`【応用】焦点距離 $20\,\mathrm{cm}$ の凸レンズの前方 $10\,\mathrm{cm}$ の位置（焦点の内側）に物体を置いたとき、どのような像ができるか。`,
+          options: ["レンズの後方20cmに倒立実像", "レンズの前方20cmに正立虚像", "レンズの後方10cmに正立実像", "像はできない"],
+          answer: 1,
+          exp: raw`$\frac{1}{10} + \frac{1}{b} = \frac{1}{20} \implies \frac{1}{b} = -\frac{1}{20} \implies b = -20\,\mathrm{cm}$。負の値はレンズの前方にできる2倍の正立虚像（虫眼鏡）を意味します。`
+        }
+      ],
+      column: "カメラのレンズ表面が青や紫に光って見えるのは、反射防止コーティング（薄膜の干渉で反射光を弱め合わせる技術）が施されているためです。"
+    },
+
+    // ==================== 第4編 電磁気 ====================
+    {
+      id: "sec11",
+      unit: "第4編 電磁気",
+      num: "4-1",
+      level: "butsuri",
+      title: "電場・電位とコンデンサー",
+      goals: [
+        "電場（ベクトル）と電位（スカラー）の違いを区別して計算できる。",
+        "コンデンサーの電気容量 C = εS/d と静電エネルギーの公式を使える。",
+        "電池をつないだまま（V一定）と切り離した状態（Q一定）の変化を解ける。"
+      ],
+      hook: "カメラのフラッシュが一瞬で強い光を放つために、電池の電気をどうやって一時的に蓄えているのでしょうか？",
+      formulas: [
+        { name: "クーロンの法則と電場・電位", tex: raw`F = k\frac{|q_1 q_2|}{r^2}, \quad E = k\frac{|Q|}{r^2}, \quad V = k\frac{Q}{r}, \quad V = Ed\text{（一様な電場）}`, note: raw`$k = \frac{1}{4\pi\varepsilon_0} \approx 9.0 \times 10^9\,\mathrm{N\cdot m^2/C^2}$` },
+        { name: "コンデンサーの電気容量と静電エネルギー", tex: raw`Q = CV, \quad C = \varepsilon\frac{S}{d}, \quad U = \frac{1}{2}CV^2 = \frac{1}{2}QV = \frac{Q^2}{2C}`, note: raw`$C$：電気容量 $[\mathrm{F}]$、$S$：極板面積、$d$：極板間隔、$\varepsilon$：誘電率` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 電場と電位</h3>
+        <p class="prose-p">正の単位電荷（$+1\,\mathrm{C}$）が受ける静電気力をその点の<span class="key-term">電場</span> $\vec{E}\,[\mathrm{N/C}]$ といい、$+1\,\mathrm{C}$ あたりの静電気力による位置エネルギーを<span class="key-term">電位</span> $V\,[\mathrm{V}]$ といいます。電気力線は正電荷から出て負電荷に入り、等電位面と必ず直交します。</p>
+        <div class="figure-box">
+          <svg viewBox="0 0 540 160" width="540" height="160" aria-label="平行板コンデンサーと電場">
+            <rect x="70" y="25" width="14" height="110" fill="#ef4444" rx="2"/>
+            <rect x="210" y="25" width="14" height="110" fill="#3b82f6" rx="2"/>
+            <text x="65" y="18" font-size="12" fill="#be123c" font-weight="700">+Q</text>
+            <text x="206" y="18" font-size="12" fill="#1d4ed8" font-weight="700">-Q</text>
+            <line x1="88" y1="45" x2="205" y2="45" stroke="#0f766e" stroke-width="2"/>
+            <line x1="88" y1="80" x2="205" y2="80" stroke="#0f766e" stroke-width="2"/>
+            <line x1="88" y1="115" x2="205" y2="115" stroke="#0f766e" stroke-width="2"/>
+            <text x="115" y="72" font-size="12" fill="#0f766e" font-weight="700">一様な電場 E</text>
+            <text x="122" y="150" font-size="12" fill="#475569">極板間隔 d</text>
+            <g transform="translate(290,35)">
+              <rect x="0" y="0" width="225" height="92" rx="8" fill="rgba(79,70,229,0.08)" stroke="#a5b4fc"/>
+              <text x="14" y="24" font-size="12.5" font-weight="700" fill="#3730a3">コンデンサーの接続</text>
+              <text x="14" y="48" font-size="12" fill="#1e293b">並列：C = C₁ + C₂（電圧共通）</text>
+              <text x="14" y="72" font-size="12" fill="#1e293b">直列：1/C = 1/C₁ + 1/C₂（電荷共通）</text>
+            </g>
+          </svg>
+          <div class="figure-caption">図4.1　平行板コンデンサーの内部電場と接続公式</div>
+        </div>
+        <h3 class="prose-heading">2. コンデンサーと誘電体</h3>
+        <p class="prose-p">2枚の導体板を向かい合わせた<span class="key-term">コンデンサー</span>は、電圧 $V$ に比例した電荷 $Q = CV$ を蓄えます。極板間に比誘電率 $\varepsilon_r$ の<span class="key-term">誘電体</span>を挿入すると、誘電分極により内部電場が弱められ、電気容量は $\varepsilon_r$ 倍になります。</p>
+      `,
+      example: {
+        q: raw`電気容量 $4.0\,\mu\mathrm{F}$ のコンデンサーを $100\,\mathrm{V}$ の電源で充電したとき、蓄えられる電荷 $Q$ と静電エネルギー $U$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>$Q = 4.0 \times 10^{-6} \times 100 = \mathbf{4.0 \times 10^{-4}\,\mathrm{C}}$、$U = \frac{1}{2} \times 4.0 \times 10^{-6} \times 100^2 = \mathbf{2.0 \times 10^{-2}\,\mathrm{J}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】電池から切り離して孤立させたコンデンサーの極板間隔 $d$ を 2 倍に広げたとき、極板間の電位差 $V$ は何倍になるか。`,
+          options: ["1/2 倍", "1 倍", "2 倍", "4 倍"],
+          answer: 2,
+          exp: raw`電池から切り離しているので電荷 $Q$ は一定です。$C = \varepsilon S/d$ が $1/2$ 倍になるため、$V = Q/C$ より電位差は 2 倍になります。`
+        },
+        {
+          q: raw`【応用】$3.0\,\mu\mathrm{F}$ と $6.0\,\mu\mathrm{F}$ のコンデンサーを直列に接続したときの合成容量は何 $\mu\mathrm{F}$ か。`,
+          options: ["2.0 μF", "4.5 μF", "9.0 μF", "18 μF"],
+          answer: 0,
+          exp: raw`直列接続の合成容量は $\frac{1}{C} = \frac{1}{3.0} + \frac{1}{6.0} = \frac{3}{6.0} = \frac{1}{2.0}$ より $C = 2.0\,\mu\mathrm{F}$ です。`
+        }
+      ],
+      column: "スマートフォンの静電容量式タッチパネルは、指が画面に近づくことで生じる微小な電気容量の変化を検出して位置を特定しています。"
+    },
+    {
+      id: "sec12",
+      unit: "第4編 電磁気",
+      num: "4-2",
+      level: "kiso",
+      title: "電流と直流回路",
+      goals: [
+        "電流のミクロな式 I = envS とオームの法則をつなげて理解する。",
+        "直列・並列の合成抵抗と消費電力（ジュール熱）を計算できる。",
+        "キルヒホッフの第1・第2法則を用いて複雑な回路網を解ける。"
+      ],
+      hook: "家庭のコンセントに複数の家電製品をつなぐとき、直列ではなく並列につなぐのはなぜでしょうか？",
+      formulas: [
+        { name: "オームの法則・抵抗・電力", tex: raw`V = RI, \quad R = \rho\frac{l}{S}, \quad P = IV = I^2R = \frac{V^2}{R}`, note: raw`$\rho$：抵抗率 $[\Omega\cdot\mathrm{m}]$、$P$：消費電力 $[\mathrm{W}]$` },
+        { name: "キルヒホッフの法則", tex: raw`\text{第1法則: }\sum I_{\text{in}} = \sum I_{\text{out}}, \quad \text{第2法則: }\sum E = \sum RI`, note: raw`複雑な回路網の電流・電圧を求める基本法則` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 電流の正体とオームの法則</h3>
+        <p class="prose-p">金属導体中の電流の正体は自由電子の移動です。自由電子の個数密度 $n$・断面積 $S$・平均の速さ $\bar{v}$ を用いて電流は $I = en\bar{v}S$ と表されます。また、電流が流れる向きと電子が動く向きは<strong>逆向き</strong>であることに注意します。</p>
+        <h3 class="prose-heading">2. キルヒホッフの法則とブリッジ回路</h3>
+        <p class="prose-p">分岐点における電流の和が $0$ である<span class="key-term">キルヒホッフの第1法則</span>と、任意の閉回路を一周したときの起電力の和と電圧降下の和が等しい<span class="key-term">キルヒホッフの第2法則</span>を用いれば、あらゆる直流回路を解くことができます。向かい合う抵抗の積が等しい（$R_1 R_4 = R_2 R_3$）ときに検流計に電流が流れない回路を<span class="key-term">ホイートストンブリッジ</span>といいます。</p>
+      `,
+      example: {
+        q: raw`起電力 $12\,\mathrm{V}$、内部抵抗 $1.0\,\Omega$ の電池に $5.0\,\Omega$ の外部抵抗をつないだとき、回路を流れる電流 $I$ と電池の端子電圧 $V$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>全抵抗 $R_{\text{全}} = 5.0 + 1.0 = 6.0\,\Omega$ なので $I = \frac{12}{6.0} = \mathbf{2.0\,\mathrm{A}}$。端子電圧 $V = 12 - 1.0 \times 2.0 = \mathbf{10\,\mathrm{V}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】同じ材質・同じ長さで、断面積だけを 2 倍にした導線の電気抵抗 $R$ は元の何倍になるか。`,
+          options: ["1/4 倍", "1/2 倍", "2 倍", "4 倍"],
+          answer: 1,
+          exp: raw`$R = \rho\frac{l}{S}$ より抵抗は断面積 $S$ に反比例するため、$1/2$ 倍になります。`
+        },
+        {
+          q: raw`【応用】$100\,\mathrm{V}$ 用の $500\,\mathrm{W}$ のドライヤーに $100\,\mathrm{V}$ の電圧をかけて 1分間使ったとき、発生するジュール熱は何 $\mathrm{kJ}$ か。`,
+          options: ["0.5 kJ", "5.0 kJ", "30 kJ", "50 kJ"],
+          answer: 2,
+          exp: raw`電力量 $Q = Pt = 500\,\mathrm{W} \times 60\,\mathrm{s} = 30000\,\mathrm{J} = 30\,\mathrm{kJ}$ です。`
+        }
+      ],
+      column: "白熱電球のフィラメントは温度が上がると抵抗値が大きくなる「非直線抵抗」です。そのため電源を入れた瞬間だけ大きな突入電流が流れます。"
+    },
+    {
+      id: "sec13",
+      unit: "第4編 電磁気",
+      num: "4-3",
+      level: "butsuri",
+      title: "電流と磁場・ローレンツ力",
+      goals: [
+        "直線電流・円形電流・ソレノイドがつくる磁場の向きと大きさを求められる。",
+        "フレミングの左手の法則で電磁力 F = IBl とローレンツ力 f = qvB の向きを判断できる。",
+        "一様な磁場中での荷電粒子の等速円運動（半径・周期）を計算できる。"
+      ],
+      hook: "宇宙から飛んでくる危険な荷電粒子（太陽風）から、地球の磁場が私たちを守ってくれるのはなぜでしょうか？",
+      formulas: [
+        { name: "電流がつくる磁場", tex: raw`H = \frac{I}{2\pi r}\text{（直線）}, \quad H = \frac{I}{2r}\text{（円形中心）}, \quad H = nI\text{（ソレノイド）}`, note: raw`磁束密度 $B = \mu H$（単位：$\mathrm{T}$ テスラ）` },
+        { name: "電磁力とローレンツ力", tex: raw`F = IBl\sin\theta, \quad f = qvB\sin\theta`, note: raw`磁場に垂直に入射した荷電粒子は半径 $r = \frac{mv}{qB}$ の等速円運動を行う` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 電流がつくる磁場</h3>
+        <p class="prose-p">電流の周囲には磁場が生じます（<span class="key-term">右ねじの法則</span>）。磁場の強さ $H\,[\mathrm{A/m}]$ と<span class="key-term">磁束密度</span> $B\,[\mathrm{T}]$ の間には透磁率 $\mu$ を用いて $B = \mu H$ の関係があります。</p>
+        <h3 class="prose-heading">2. 電磁力とローレンツ力</h3>
+        <p class="prose-p">磁場中の電流が受ける力（$F = IBl$）の正体は、電流を担う個々の荷電粒子が受ける<span class="key-term">ローレンツ力</span>（$f = qvB$）です。ローレンツ力は常に速度と垂直にはたらくため<strong>仕事をせず、粒子の速さを変えません</strong>。したがって、一様な磁場に垂直に入射した荷電粒子は<span class="key-term">等速円運動</span>を行います。</p>
+        <div class="pitfall-box">
+          <div class="pitfall-title">⚠️ つまずき注意！負電荷（電子）が受けるローレンツ力の向き</div>
+          フレミングの左手の法則の「中指（電流の向き）」は<strong>正電荷の動く向き</strong>です。電子（負電荷）の場合は、進行方向と<strong>逆向き</strong>に中指を向けて力の向きを判断します。
+        </div>
+      `,
+      example: {
+        q: raw`磁束密度 $B = 0.50\,\mathrm{T}$ の一様な磁場に垂直に、電気量 $q = 1.6\times 10^{-19}\,\mathrm{C}$ の陽子が速さ $2.0\times 10^6\,\mathrm{m/s}$ で入射した。陽子が受けるローレンツ力の大きさ $f$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>$f = qvB = 1.6\times 10^{-19} \times 2.0\times 10^6 \times 0.50 = \mathbf{1.6\times 10^{-13}\,\mathrm{N}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】一様な磁場に垂直に入射して等速円運動を行う荷電粒子の速さ $v$ を 2 倍にすると、円運動の周期 $T$ はどうなるか。`,
+          options: ["1/2 倍", "変わらない", "2 倍", "4 倍"],
+          answer: 1,
+          exp: raw`半径 $r = \frac{mv}{qB}$ は2倍になりますが、周期 $T = \frac{2\pi r}{v} = \frac{2\pi m}{qB}$ は速さ $v$ に依存しないため変わりません。`
+        },
+        {
+          q: raw`【応用】平行な2本の導線に「同じ向き」の電流を流したとき、2本の導線の間にはたらく力はどちらか。`,
+          options: ["引力（引き合う）", "斥力（退け合う）", "力ははたらかない", "導線と平行な力"],
+          answer: 0,
+          exp: raw`一方の電流がつくる磁場と他方の電流からフレミングの左手の法則を適用すると、同じ向きの電流同士は引き合います（逆向きなら斥力）。`
+        }
+      ],
+      column: "北極や南極で見られるオーロラは、太陽風などの荷電粒子が地球の磁力線に沿ってらせん運動をしながら大気に突入し、空気中の原子と衝突して発光する現象です。"
+    },
+    {
+      id: "sec14",
+      unit: "第4編 電磁気",
+      num: "4-4",
+      level: "butsuri",
+      title: "電磁誘導と交流回路",
+      goals: [
+        "レンツの法則とファラデーの電磁誘導の法則で誘導起電力の向きと大きさを求められる。",
+        "交流の実効値と最大値の関係（V₀ = √2 Vₑ）を理解する。",
+        "コイルとコンデンサーのリアクタンス、およびRLC直列共振の条件を計算できる。"
+      ],
+      hook: "スマートフォンのワイヤレス充電やIHクッキングヒーターは、コードをつながずにどうやって電気を送っているのでしょうか？",
+      formulas: [
+        { name: "ファラデーの電磁誘導の法則", tex: raw`V = -N\frac{\Delta \Phi}{\Delta t}, \quad V = vBl\text{（導体棒）}`, note: raw`$\Phi = BS$：磁束 $[\mathrm{Wb}]$、レンツの法則（磁束の変化を妨げる向き）` },
+        { name: "交流の実効値とRLC直列共振", tex: raw`V_e = \frac{V_0}{\sqrt{2}}, \quad Z = \sqrt{R^2 + \left(\omega L - \frac{1}{\omega C}\right)^2}, \quad f_0 = \frac{1}{2\pi\sqrt{LC}}`, note: raw`リアクタンス $X_L = \omega L$、$X_C = \frac{1}{\omega C}$、共振周波数 $f_0$` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 電磁誘導・自己誘導・相互誘導</h3>
+        <p class="prose-p">コイルを貫く磁束が変化すると誘導起電力が生じます（<span class="key-term">電磁誘導</span>）。その向きは「磁束の変化を妨げる向き」です（<span class="key-term">レンツの法則</span>）。自分の電流変化で自分自身に起電力を生じる現象を<span class="key-term">自己誘導</span>（$V = -L\frac{\Delta I}{\Delta t}$）、2つのコイル間で起こる現象を<span class="key-term">相互誘導</span>といいます。</p>
+        <h3 class="prose-heading">2. 交流とRLC回路</h3>
+        <p class="prose-p">コイルは高周波ほど電流を通しにくく（位相は電圧より $\frac{\pi}{2}$ 遅れる）、コンデンサーは高周波ほど電流を通しやすい（位相は電圧より $\frac{\pi}{2}$ 進む）性質があります。$\omega L = \frac{1}{\omega C}$ となる周波数 $f_0 = \frac{1}{2\pi\sqrt{LC}}$ ではインピーダンス $Z$ が最小になり、最大の電流が流れます（<span class="key-term">電気共振</span>）。</p>
+      `,
+      simId: "sim-ac",
+      example: {
+        q: raw`日本の家庭用コンセントの交流電圧の実効値は $100\,\mathrm{V}$ である。この交流電圧の最大値 $V_0$ はおよそ何 $\mathrm{V}$ か。`,
+        a: raw`<strong>【解答】</strong>$V_e = \frac{V_0}{\sqrt{2}}$ より $V_0 = \sqrt{2} V_e \approx 1.414 \times 100 \approx \mathbf{141\,\mathrm{V}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】RLC直列回路において、電気共振が起こっているときの回路のインピーダンス $Z$ はいくらになるか。`,
+          options: ["0", "R", "ωL", "R + ωL"],
+          answer: 1,
+          exp: raw`共振時は $\omega L = \frac{1}{\omega C}$ となってリアクタンス成分が打ち消し合うため、$Z = \sqrt{R^2 + 0} = R$ となります。`
+        },
+        {
+          q: raw`【応用】1次コイルの巻数が 100 回、2次コイルの巻数が 500 回の変圧器の1次側に $100\,\mathrm{V}$ の交流を加えると、2次側の電圧は何 $\mathrm{V}$ になるか。`,
+          options: ["20 V", "100 V", "500 V", "2500 V"],
+          answer: 2,
+          exp: raw`変圧器の電圧比は巻数比に等しいため、$V_2 = 100 \times \frac{500}{100} = 500\,\mathrm{V}$ になります。`
+        }
+      ],
+      column: "ラジオやテレビのチューナーは、コンデンサーの容量 $C$ を変化させて共振周波数 $f_0$ を放送局の電波の周波数に合わせることで、特定の局だけを選局しています。"
+    },
+
+    // ==================== 第5編 原子 ====================
+    {
+      id: "sec15",
+      unit: "第5編 原子",
+      num: "5-1",
+      level: "butsuri",
+      title: "電子と光・原子の構造",
+      goals: [
+        "光電効果の実験事実から光量子仮説 K_max = hν - W を説明できる。",
+        "物質波（ド・ブロイ波）の波長 λ = h/mv を計算できる。",
+        "ボーアの量子条件・振動数条件を用いて水素原子の線スペクトルを理解する。"
+      ],
+      hook: "金属にどんなに強い赤い光を当てても電子は飛び出さないのに、弱い紫外線を当てると一瞬で電子が飛び出すのはなぜでしょうか？",
+      formulas: [
+        { name: "光電効果と物質波", tex: raw`K_{\max} = h\nu - W, \quad \lambda = \frac{h}{p} = \frac{h}{mv}`, note: raw`$h = 6.63\times 10^{-34}\,\mathrm{J\cdot s}$（プランク定数）、$W$：仕事関数` },
+        { name: "ボーアの量子条件と振動数条件", tex: raw`2\pi r = n\lambda = n\frac{h}{mv}, \quad h\nu = E_n - E_{n'}`, note: raw`電子の定常状態と線スペクトルを説明する式` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 光の粒子性（光電効果・コンプトン効果）</h3>
+        <p class="prose-p">金属に光を当てると電子が飛び出す<span class="key-term">光電効果</span>では、光の強さではなく<strong>振動数 $\nu$ が限界振動数 $\nu_0$ 以上かどうか</strong>で電子が飛び出すかが決まります。アインシュタインは、光がエネルギー $h\nu$ を持つ粒（<span class="key-term">光子</span>）の集まりであると考えることでこれを説明しました（<span class="key-term">光量子仮説</span>）。</p>
+        <h3 class="prose-heading">2. 粒子の波動性とボーアの原子模型</h3>
+        <p class="prose-p">電子のような粒子も波長 $\lambda = \frac{h}{mv}$ の波の性質（<span class="key-term">物質波／ド・ブロイ波</span>）を持ちます。ボーアは、電子の軌道周長が物質波の波長の整数倍（<span class="key-term">量子条件</span>）になるときだけ安定に存在でき、軌道間を遷移するときにエネルギー差に相当する光子を放出・吸収する（<span class="key-term">振動数条件</span>）と仮定し、水素原子の線スペクトルを見事に説明しました。</p>
+      `,
+      simId: "sim-photo",
+      example: {
+        q: raw`仕事関数 $W = 2.0\,\mathrm{eV}$ の金属表面に、エネルギー $h\nu = 3.2\,\mathrm{eV}$ の光子を当てたとき、飛び出す光電子の最大運動エネルギー $K_{\max}$ は何 $\mathrm{eV}$ か。`,
+        a: raw`<strong>【解答】</strong>$K_{\max} = h\nu - W = 3.2 - 2.0 = \mathbf{1.2\,\mathrm{eV}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】光電効果が起きているとき、光の振動数 $\nu$ を変えずに「光の強さ（明るさ）」だけを 2 倍にするとどうなるか。`,
+          options: ["飛び出す電子の最大運動エネルギーが2倍になる", "単位時間あたりに飛び出す電子の数が2倍になる", "仕事関数が半分になる", "何も変わらない"],
+          answer: 1,
+          exp: raw`光の強さは単位時間あたりに当たる光子の数に比例するため、飛び出す光電子の数（光電流）が2倍になります。最大運動エネルギーは振動数 $\nu$ のみで決まります。`
+        },
+        {
+          q: raw`【応用】プランク定数 $h$、振動数 $\nu$、光速 $c$ を用いて、光子1個の運動量 $p$ を表すとどうなるか。`,
+          options: ["hνc", "hν / c", "hc / ν", "h / cν"],
+          answer: 1,
+          exp: raw`光子のエネルギー $E = h\nu$ と $c = \nu\lambda$、物質波の関係 $p = \frac{h}{\lambda}$ より、$p = \frac{h\nu}{c}$ となります（コンプトン効果）。`
+        }
+      ],
+      column: "デジタルカメラの撮像素子（CMOSセンサー）や太陽光発電パネルは、光電効果（内部光電効果）を利用して光のエネルギーを電気信号・電力に変換しています。"
+    },
+    {
+      id: "sec16",
+      unit: "第5編 原子",
+      num: "5-2",
+      level: "butsuri",
+      title: "原子核と素粒子",
+      goals: [
+        "α崩壊・β崩壊・γ崩壊における質量数と原子番号の変化を追跡できる。",
+        "半減期の式を用いて残存原子核数を計算できる。",
+        "質量欠損 Δm と結合エネルギー ΔE = Δmc² の意味を理解する。"
+      ],
+      hook: "太陽が何十億年もの間、莫大な光と熱を出し続けられるエネルギーの源は何でしょうか？",
+      formulas: [
+        { name: "放射性崩壊と半減期", tex: raw`N = N_0 \left(\frac{1}{2}\right)^{\frac{t}{T}}`, note: raw`$N_0$：最初の原子核数、$T$：半減期` },
+        { name: "質量とエネルギーの等価性", tex: raw`\Delta E = \Delta m c^2`, note: raw`$c \approx 3.0 \times 10^8\,\mathrm{m/s}$（真空中の光速）、$\Delta m$：質量欠損` }
+      ],
+      body: raw`
+        <h3 class="prose-heading">1. 原子核と放射線・半減期</h3>
+        <p class="prose-p">原子核は<span class="key-term">陽子</span>と<span class="key-term">中性子</span>（総称して<span class="key-term">核子</span>）が、強い短距離力である<span class="key-term">核力</span>で結びついてできています。不安定な原子核が放射線を放出して別の原子核に変わる現象を<span class="key-term">放射性崩壊</span>といい、元の数が半分になる時間を<span class="key-term">半減期</span>といいます。</p>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th>放射線</th><th>正体</th><th>透過力</th><th>電離作用</th></tr></thead>
+            <tbody>
+              <tr><td><strong>$\alpha$ 線</strong></td><td>ヘリウム原子核 ($ {}^4_2\mathrm{He}$)</td><td>小（紙1枚で止まる）</td><td>大</td></tr>
+              <tr><td><strong>$\beta$ 線</strong></td><td>高速の電子 ($ {}^0_{-1}\mathrm{e}$)</td><td>中（薄いアルミ板で止まる）</td><td>中</td></tr>
+              <tr><td><strong>$\gamma$ 線</strong></td><td>高エネルギー電磁波</td><td>大（厚い鉛やコンクリートが必要）</td><td>小</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class="prose-heading">2. 質量欠損と核エネルギー</h3>
+        <p class="prose-p">原子核の質量は、構成するバラバラの陽子と中性子の質量の和よりわずかに小さい（<span class="key-term">質量欠損</span> $\Delta m$）。これは $\Delta E = \Delta m c^2$ により、核を結びつける<span class="key-term">結合エネルギー</span>として放出されたためです。重い原子核が割れる<span class="key-term">核分裂</span>や、軽い原子核が融合する<span class="key-term">核融合</span>（太陽のエネルギー源）では莫大なエネルギーが解放されます。</p>
+      `,
+      example: {
+        q: raw`半減期 $T = 8.0\text{日}$ の放射性同位体が $6.4 \times 10^{10}$ 個あるとき、$24\text{日後}$ に崩壊せずに残っている原子核の数 $N$ を求めよ。`,
+        a: raw`<strong>【解答】</strong>経過時間 $t = 24\text{日} = 3T$ なので、$N = 6.4\times 10^{10} \times \left(\frac{1}{2}\right)^3 = \frac{6.4\times 10^{10}}{8} = \mathbf{8.0\times 10^9\text{個}}$。`
+      },
+      quizzes: [
+        {
+          q: raw`【基礎】放射性炭素 $ {}^{14}_{6}\mathrm{C}$ が $\beta$ 崩壊して電子 $ {}^{0}_{-1}\mathrm{e}$ を1個放出すると、どの原子核に変わるか。`,
+          options: ["¹⁴₇N（窒素）", "¹⁰₄Be（ベリリウム）", "¹⁴₅B（ホウ素）", "¹²₆C（炭素）"],
+          answer: 0,
+          exp: raw`$\beta$ 崩壊では質量数（14）は変わらず、原子番号が1増える（$6 - (-1) = 7$）ため、$ {}^{14}_{7}\mathrm{N}$ になります。`
+        },
+        {
+          q: raw`【応用】ある放射性元素の原子核数が 1/16 に減少するのに 40 日かかった。この放射性元素の半減期は何日か。`,
+          options: ["2.5 日", "5.0 日", "10 日", "20 日"],
+          answer: 2,
+          exp: raw`$\frac{1}{16} = \left(\frac{1}{2}\right)^4$ より半減期が 4 回経過しています。$40 \div 4 = 10\text{日}$ です。`
+        }
+      ],
+      column: "遺跡の木片や化石の年代測定には、半減期約5730年の放射性炭素（¹⁴C）がどれくらい残っているかを調べる「放射性炭素年代測定法」が使われています。"
+    }
+  ];
+
+  // App State
+  const STORAGE_KEY = "hs_physics_textbook_v2";
+  let state = {
+    currentId: "sec1",
+    readIds: [],
+    bookmarks: [],
+    quizAnswers: {}, // key: `${sec.id}_${qIdx}`
+    notes: {},
+    filter: "all",
+    search: "",
+    redSheet: false,
+    fontScaleIndex: 1,
+    theme: "light"
+  };
+
+  function loadState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) state = Object.assign({}, state, JSON.parse(saved));
+    } catch (e) { /* Ignore */ }
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { /* Ignore */ }
+  }
+
+  // Self-contained LaTeX-to-HTML Math Renderer (works offline & in Safari/Canvas)
+  function texToHtml(tex) {
+    let t = tex.trim();
+    const sym = {
+      "\\\\alpha": "α", "\\\\beta": "β", "\\\\gamma": "γ", "\\\\Delta": "Δ",
+      "\\\\varepsilon": "ε", "\\\\theta": "θ", "\\\\lambda": "λ", "\\\\mu": "μ",
+      "\\\\nu": "ν", "\\\\pi": "π", "\\\\rho": "ρ", "\\\\Sigma": "Σ",
+      "\\\\sum": "∑", "\\\\Phi": "Φ", "\\\\omega": "ω", "\\\\Omega": "Ω",
+      "\\\\times": "×", "\\\\cdot": "·", "\\\\approx": "≈", "\\\\implies": "⇒",
+      "\\\\le": "≤", "\\\\ge": "≥", "\\\\sin": "sin", "\\\\cos": "cos",
+      "\\\\tan": "tan", "\\\\circ": "°", "\\\\propto": "∝", "\\\\div": "÷", "\\\\ln": "ln", "\\\\max": "max", "\\\\min": "min",
+      "\\\\quad": "&emsp;", "\\\\left": "", "\\\\right": ""
+    };
+    t = t.replace(/\\(?:text|mathrm|mathbf)\{([^{}]*)\}/g, "$1");
+    t = t.replace(/\\vec\{([^{}]*)\}/g, '<span class="math-vec">$1</span>');
+    t = t.replace(/\^\\circ/g, "°");
+    t = t.replace(/\\overline\{([^{}]*)\}/g, '<span class="math-over">$1</span>');
+    t = t.replace(/\\bar\{([^{}]*)\}/g, '<span class="math-over">$1</span>');
+    for (let pass = 0; pass < 2; pass++) {
+      t = t.replace(/\\frac\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g,
+        '<span class="math-frac"><span class="num">$1</span><span class="den">$2</span></span>');
+      t = t.replace(/\\sqrt\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}/g,
+        '<span class="math-sqrt"><span class="math-sqrt-rad">√</span><span class="math-sqrt-body">$1</span></span>');
+    }
+    for (const [k, v] of Object.entries(sym)) {
+      t = t.replace(new RegExp(k + "(?![a-zA-Z])", "g"), v);
+    }
+    t = t.replace(/_\{([^{}]+)\}/g, "<sub>$1</sub>");
+    t = t.replace(/\^\{([^{}]+)\}/g, "<sup>$1</sup>");
+    t = t.replace(/_([a-zA-Z0-9])/g, "<sub>$1</sub>");
+    t = t.replace(/\^([a-zA-Z0-9])/g, "<sup>$1</sup>");
+    t = t.replace(/\\,/g, "&thinsp;");
+    t = t.replace(/[{}]/g, "");
+    return t;
+  }
+
+  function renderMath(el) {
+    if (!el) return;
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      if (n.parentElement && (n.parentElement.tagName === "SCRIPT" || n.parentElement.tagName === "STYLE" || n.parentElement.tagName === "TEXTAREA")) continue;
+      if (n.nodeValue && n.nodeValue.includes("$")) nodes.push(n);
+    }
+    nodes.forEach(textNode => {
+      const val = textNode.nodeValue;
+      const parts = val.split(/(\$\$[\s\S]+?\$\$|\$[^$]+?\$)/g);
+      if (parts.length <= 1) return;
+      const frag = document.createDocumentFragment();
+      parts.forEach(part => {
+        if (part.startsWith("$$") && part.endsWith("$$")) {
+          const span = document.createElement("div");
+          span.className = "math-display";
+          span.innerHTML = texToHtml(part.slice(2, -2));
+          frag.appendChild(span);
+        } else if (part.startsWith("$") && part.endsWith("$")) {
+          const span = document.createElement("span");
+          span.className = "math-inline";
+          span.innerHTML = texToHtml(part.slice(1, -1));
+          frag.appendChild(span);
+        } else if (part) {
+          frag.appendChild(document.createTextNode(part));
+        }
+      });
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  const FONT_SCALES = [
+    { label: "Aa 小", val: 0.9 },
+    { label: "Aa 標準", val: 1.0 },
+    { label: "Aa 大", val: 1.15 }
+  ];
+  const THEMES = [
+    { id: "light", label: "☀️ 標準" },
+    { id: "paper", label: "📜 紙面" },
+    { id: "dark", label: "🌙 夜間" }
+  ];
+
+  function applyUnitAccent(unitName) {
+    const ut = UNIT_THEMES[unitName] || UNIT_THEMES["第1編 力学"];
+    document.documentElement.style.setProperty("--accent", ut.color);
+    if (state.theme !== "dark") {
+      document.documentElement.style.setProperty("--accent-soft", ut.soft);
+      document.documentElement.style.setProperty("--accent-dark", ut.dark);
+    }
+  }
+
+  function applyAppearance() {
+    document.documentElement.style.setProperty("--font-scale", FONT_SCALES[state.fontScaleIndex].val);
+    document.getElementById("fontSizeBtn").textContent = FONT_SCALES[state.fontScaleIndex].label;
+
+    document.documentElement.setAttribute("data-theme", state.theme);
+    const tObj = THEMES.find(t => t.id === state.theme) || THEMES[0];
+    document.getElementById("themeBtn").textContent = tObj.label;
+
+    document.body.classList.toggle("redsheet-on", state.redSheet);
+    const rsBtn = document.getElementById("redSheetBtn");
+    rsBtn.classList.toggle("redsheet-active", state.redSheet);
+    rsBtn.textContent = state.redSheet ? "🟥 赤シート ON" : "🟥 赤シート";
+
+    document.getElementById("bookmarkCount").textContent = state.bookmarks.length;
+  }
+
+  function updateQuizScore() {
+    const el = document.getElementById("quizScoreText");
+    if (!el) return;
+    let total = 0, correct = 0;
+    SECTIONS.forEach(s => (s.quizzes || []).forEach((qz, qi) => {
+      total++;
+      if (state.quizAnswers[s.id + "_" + qi] === qz.answer) correct++;
+    }));
+    el.textContent = `確認問題 ${correct} / ${total} 正解`;
+  }
+
+  function renderTOC() {
+    const tocEl = document.getElementById("tocList");
+    const q = state.search.trim().toLowerCase();
+    const filtered = SECTIONS.filter(sec => {
+      if (state.filter !== "all" && sec.level !== state.filter) return false;
+      if (!q) return true;
+      const hay = (sec.title + " " + sec.unit + " " + sec.hook + " " + sec.body).toLowerCase();
+      return hay.includes(q);
+    });
+
+    const units = [];
+    filtered.forEach(s => { if (!units.includes(s.unit)) units.push(s.unit); });
+
+    if (units.length === 0) {
+      tocEl.innerHTML = `<div style="padding:16px; font-size:13px; color:var(--text-light); text-align:center;">該当する単元が見つかりません</div>`;
+    } else {
+      tocEl.innerHTML = units.map(u => {
+        const items = filtered.filter(s => s.unit === u);
+        const dotColor = (UNIT_THEMES[u] || {}).color || "#2563eb";
+        return `
+          <div class="unit-group">
+            <div class="unit-header"><span class="unit-dot" style="background:${dotColor};"></span><span>${u}</span></div>
+            ${items.map(s => {
+              const isRead = state.readIds.includes(s.id);
+              const isActive = state.currentId === s.id;
+              const isBm = state.bookmarks.includes(s.id);
+              return `
+                <button class="toc-item ${isActive ? "active" : ""}" data-sec-id="${s.id}">
+                  <span class="toc-num">${s.num}</span>
+                  <span class="toc-title">${isBm ? "🔖 " : ""}${s.title}</span>
+                  <span class="toc-badge ${s.level === "kiso" ? "badge-kiso" : "badge-butsuri"}">${s.level === "kiso" ? "基礎" : "物理"}</span>
+                  ${isRead ? `<span class="toc-check" title="読了">✓</span>` : ""}
+                </button>
+              `;
+            }).join("")}
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("progressText").textContent = `${state.readIds.length} / ${SECTIONS.length} 節 読了`;
+    document.getElementById("progressBar").style.width = `${Math.round((state.readIds.length / SECTIONS.length) * 100)}%`;
+    updateQuizScore();
+
+
+  }
+
+  let activeAnimId = null;
+  function stopActiveSim() {
+    if (activeAnimId !== null) {
+      cancelAnimationFrame(activeAnimId);
+      activeAnimId = null;
+    }
+  }
+
+  function renderSection(id) {
+    stopActiveSim();
+    const idx = SECTIONS.findIndex(s => s.id === id);
+    const sec = SECTIONS[idx >= 0 ? idx : 0];
+    state.currentId = sec.id;
+    applyUnitAccent(sec.unit);
+    saveState();
+
+    const isBm = state.bookmarks.includes(sec.id);
+    const isRead = state.readIds.includes(sec.id);
+    const userNote = state.notes[sec.id] || "";
+
+    const paper = document.getElementById("paperSheet");
+    paper.innerHTML = `
+      <div class="section-meta">
+        <div class="section-breadcrumb">
+          <span>${sec.unit}</span>
+          <span>›</span>
+          <span class="toc-badge ${sec.level === "kiso" ? "badge-kiso" : "badge-butsuri"}">${sec.level === "kiso" ? "物理基礎" : "物理（発展）"}</span>
+        </div>
+        <div class="section-actions">
+          <button id="toggleBookmarkBtn" class="tool-btn ${isBm ? "active" : ""}">🔖 ${isBm ? "しおり済み" : "しおり"}</button>
+          <button id="toggleReadBtn" class="tool-btn ${isRead ? "active" : ""}">✓ ${isRead ? "読了済み" : "読了にする"}</button>
+        </div>
+      </div>
+
+      <h1 class="section-title">
+        <span class="section-title-num">${sec.num}</span>
+        <span>${sec.title}</span>
+      </h1>
+
+      <div class="goals-card">
+        <div class="goals-title">🎯 この節の学習目標</div>
+        <ul class="goals-list">
+          ${sec.goals.map(g => `<li>${g}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="hook-box">
+        <span class="hook-label">💡 考えてみよう</span>
+        <div>${sec.hook}</div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-title">📌 この節の重要公式</div>
+        ${sec.formulas.map(f => `
+          <div class="formula-item">
+            <div style="font-size:12.5px; font-weight:700; color:var(--text-muted);">${f.name}</div>
+            <div>$$${f.tex}$$</div>
+            <div class="formula-note">${f.note}</div>
+          </div>
+        `).join("")}
+      </div>
+
+      <div class="textbook-body">${sec.body}</div>
+
+      ${sec.simId ? `<div id="simContainer" class="sim-box"></div>` : ""}
+
+      <div class="example-box">
+        <span class="example-header">例題（ステップ解説付き）</span>
+        <div>${sec.example.q}</div>
+        <button id="solutionToggleBtn" class="solution-toggle">▼ 解答・解説を見る</button>
+        <div id="solutionBody" class="solution-body" style="display:none;">${sec.example.a}</div>
+      </div>
+
+      ${(sec.quizzes || []).map((qz, qi) => {
+        const sel = state.quizAnswers[sec.id + "_" + qi];
+        const answered = typeof sel === "number";
+        const correct = answered && sel === qz.answer;
+        return `
+      <div class="quiz-box">
+        <span class="quiz-badge">✏️ 確認問題 ${qi + 1} / ${sec.quizzes.length}</span>
+        <div>${qz.q}</div>
+        <div class="quiz-options">
+          ${qz.options.map((opt, oi) => {
+            let cls = "";
+            if (answered) { if (oi === qz.answer) cls = " selected-correct"; else if (oi === sel) cls = " selected-wrong"; }
+            return `<button class="quiz-option${cls}" data-quiz="${qi}" data-opt="${oi}">${"ABCD"[oi]}. ${opt}</button>`;
+          }).join("")}
+        </div>
+        ${answered ? `<div class="quiz-feedback ${correct ? "ok" : "ng"}">${correct ? "⭕ 正解！" : "❌ 不正解。正解は「" + qz.options[qz.answer] + "」です。"}<br>${qz.exp}</div>` : ""}
+      </div>`;
+      }).join("")}
+
+      <div class="column-box">
+        <div class="column-title">🔬 コラム：物理と日常</div>
+        <div>${sec.column}</div>
+      </div>
+
+      <div class="note-box">
+        <label for="sectionNoteInput" style="display:block; font-size:13px; font-weight:700; margin-bottom:6px;">📝 学習メモ（自動保存）</label>
+        <textarea id="sectionNoteInput" placeholder="この単元のポイントや疑問点をメモできます...">${userNote}</textarea>
+      </div>
+
+      <div class="page-nav">
+        <button id="prevSecBtn" class="nav-btn" ${idx <= 0 ? "disabled" : ""}>← 前の節へ</button>
+        <span style="font-size:12.5px; color:var(--text-light);">${idx + 1} / ${SECTIONS.length}</span>
+        <button id="nextSecBtn" class="nav-btn primary" ${idx >= SECTIONS.length - 1 ? "disabled" : ""}>次の節へ →</button>
+      </div>
+    `;
+
+    document.getElementById("toggleBookmarkBtn").addEventListener("click", () => {
+      if (state.bookmarks.includes(sec.id)) state.bookmarks = state.bookmarks.filter(x => x !== sec.id);
+      else state.bookmarks.push(sec.id);
+      saveState(); applyAppearance(); renderTOC(); renderSection(sec.id);
+    });
+
+    document.getElementById("toggleReadBtn").addEventListener("click", () => {
+      if (state.readIds.includes(sec.id)) state.readIds = state.readIds.filter(x => x !== sec.id);
+      else state.readIds.push(sec.id);
+      saveState(); renderTOC(); renderSection(sec.id);
+    });
+
+    document.getElementById("solutionToggleBtn").addEventListener("click", (e) => {
+      const sb = document.getElementById("solutionBody");
+      const open = sb.style.display === "none";
+      sb.style.display = open ? "block" : "none";
+      e.currentTarget.textContent = open ? "▲ 解答・解説を隠す" : "▼ 解答・解説を見る";
+    });
+
+    paper.querySelectorAll(".quiz-option").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const qi = Number(btn.getAttribute("data-quiz"));
+        const oi = Number(btn.getAttribute("data-opt"));
+        const qz = (sec.quizzes || [])[qi];
+        if (!qz) return;
+        state.quizAnswers[sec.id + "_" + qi] = oi;
+        saveState();
+        const box = btn.closest(".quiz-box");
+        box.querySelectorAll(".quiz-option").forEach(b => {
+          const boi = Number(b.getAttribute("data-opt"));
+          b.classList.remove("selected-correct", "selected-wrong");
+          if (boi === qz.answer) b.classList.add("selected-correct");
+          else if (boi === oi) b.classList.add("selected-wrong");
+        });
+        let fb = box.querySelector(".quiz-feedback");
+        if (!fb) { fb = document.createElement("div"); box.appendChild(fb); }
+        const correct = oi === qz.answer;
+        fb.className = "quiz-feedback " + (correct ? "ok" : "ng");
+        fb.innerHTML = (correct ? "⭕ 正解！" : "❌ 不正解。正解は「" + qz.options[qz.answer] + "」です。") + "<br>" + qz.exp;
+        renderMath(fb);
+        updateQuizScore();
+      });
+    });
+
+
+    paper.querySelectorAll(".key-term").forEach(kt => {
+      kt.addEventListener("click", () => {
+        if (state.redSheet) kt.classList.toggle("revealed");
+      });
+    });
+
+    document.getElementById("sectionNoteInput").addEventListener("input", (e) => {
+      state.notes[sec.id] = e.target.value;
+      saveState();
+    });
+
+    document.getElementById("prevSecBtn").addEventListener("click", () => {
+      if (idx > 0) { renderSection(SECTIONS[idx - 1].id); window.scrollTo({ top: 0, behavior: "smooth" }); }
+    });
+
+    document.getElementById("nextSecBtn").addEventListener("click", () => {
+      if (idx < SECTIONS.length - 1) {
+        if (!state.readIds.includes(sec.id)) { state.readIds.push(sec.id); saveState(); }
+        renderSection(SECTIONS[idx + 1].id); window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    if (sec.simId) initSimulator(sec.simId);
+    renderMath(paper);
+    renderTOC();
+  }
+
+  // ==================== 5 Interactive Simulators (HiDPI Safari-ready) ====================
+  function setupCanvas(canvas) {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(rect.width || 600, 300);
+    const h = 280;
+    const tw = Math.round(w * dpr), th = Math.round(h * dpr);
+    if (canvas.width !== tw || canvas.height !== th) {
+      canvas.width = tw;
+      canvas.height = th;
+    }
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { ctx, w, h };
+  }
+
+  function initSimulator(simId) {
+    const box = document.getElementById("simContainer");
+    if (!box) return;
+
+    if (simId === "sim-projectile") {
+      box.innerHTML = `
+        <div class="sim-header">
+          <span class="sim-badge">🧪 デジタル実験：斜方投射シミュレータ</span>
+          <span style="font-size:12px; color:var(--text-light);">スライダーで角度と初速度を変えてみよう</span>
+        </div>
+        <div class="sim-canvas-wrap"><canvas id="simCanvas"></canvas></div>
+        <div class="sim-controls">
+          <div class="sim-control-item">
+            <label><span>初速度 v₀</span><span id="valV0">24 m/s</span></label>
+            <input id="ctrlV0" type="range" min="10" max="35" step="1" value="24" />
+          </div>
+          <div class="sim-control-item">
+            <label><span>投射角 θ</span><span id="valAng">45°</span></label>
+            <input id="ctrlAng" type="range" min="15" max="80" step="1" value="45" />
+          </div>
+          <div class="sim-control-item">
+            <label><span>重力加速度 g</span><span id="valG">9.8 m/s²</span></label>
+            <input id="ctrlG" type="range" min="1.6" max="15" step="0.2" value="9.8" />
+          </div>
+        </div>
+        <div id="simReadout" class="sim-readout"></div>
+        <div class="sim-btn-row">
+          <button id="simPlayBtn" class="tool-btn active">▶ 発射 / リセット</button>
+        </div>
+      `;
+      let t = 0; let running = true;
+      const canvas = document.getElementById("simCanvas");
+      const getP = () => ({
+        v0: Number(document.getElementById("ctrlV0").value),
+        ang: Number(document.getElementById("ctrlAng").value) * Math.PI / 180,
+        g: Number(document.getElementById("ctrlG").value)
+      });
+      const updateLabels = () => {
+        const p = getP();
+        document.getElementById("valV0").textContent = `${p.v0} m/s`;
+        document.getElementById("valAng").textContent = `${Math.round(p.ang * 180 / Math.PI)}°`;
+        document.getElementById("valG").textContent = `${p.g.toFixed(1)} m/s²`;
+        const vx = p.v0 * Math.cos(p.ang), vy = p.v0 * Math.sin(p.ang);
+        const T = 2 * vy / p.g, H = (vy * vy) / (2 * p.g), R = vx * T;
+        document.getElementById("simReadout").innerHTML = `
+          <span>最高点 H: ${H.toFixed(1)} m</span>
+          <span>水平到達距離 R: ${R.toFixed(1)} m</span>
+          <span>滞空時間 T: ${T.toFixed(2)} s</span>
+        `;
+      };
+      ["ctrlV0", "ctrlAng", "ctrlG"].forEach(id => {
+        document.getElementById(id).addEventListener("input", () => { t = 0; updateLabels(); });
+      });
+      document.getElementById("simPlayBtn").addEventListener("click", () => { t = 0; running = true; });
+      updateLabels();
+      function loop() {
+        const { ctx, w, h } = setupCanvas(canvas);
+        const p = getP();
+        const vx = p.v0 * Math.cos(p.ang), vy0 = p.v0 * Math.sin(p.ang), T = 2 * vy0 / p.g;
+        const scale = Math.min((w - 60) / 140, (h - 50) / 70), ox = 36, oy = h - 30;
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = "rgba(148,163,184,0.16)"; ctx.lineWidth = 1;
+        for (let gx = 0; gx <= 140; gx += 20) { ctx.beginPath(); ctx.moveTo(ox + gx * scale, 10); ctx.lineTo(ox + gx * scale, oy); ctx.stroke(); }
+        ctx.strokeStyle = "#64748b"; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(10, oy); ctx.lineTo(w - 10, oy); ctx.stroke();
+        ctx.strokeStyle = "rgba(56, 189, 248, 0.5)"; ctx.setLineDash([5, 4]); ctx.beginPath();
+        for (let s = 0; s <= T; s += T / 60) {
+          const px = ox + vx * s * scale, py = oy - (vy0 * s - 0.5 * p.g * s * s) * scale;
+          if (s === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke(); ctx.setLineDash([]);
+        const curT = Math.min(t, T), bx = ox + vx * curT * scale, by = oy - (vy0 * curT - 0.5 * p.g * curT * curT) * scale;
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(bx, by, 7, 0, Math.PI * 2); ctx.fill();
+        const vyNow = vy0 - p.g * curT;
+        ctx.strokeStyle = "#34d399"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx + vx * 1.4, by); ctx.stroke();
+        ctx.strokeStyle = "#fb7185"; ctx.beginPath(); ctx.moveTo(bx, by); ctx.lineTo(bx, by - vyNow * 1.4); ctx.stroke();
+        if (running) { t += 0.035; if (t > T + 0.6) t = 0; }
+        activeAnimId = requestAnimationFrame(loop);
+      }
+      activeAnimId = requestAnimationFrame(loop);
+    }
+
+    else if (simId === "sim-thermo") {
+      box.innerHTML = `
+        <div class="sim-header"><span class="sim-badge">🧪 デジタル実験：気体の状態変化 (P-V図)</span></div>
+        <div class="sim-canvas-wrap"><canvas id="simCanvas"></canvas></div>
+        <div class="sim-controls">
+          <div class="sim-control-item">
+            <label><span>変化の種類</span></label>
+            <select id="ctrlMode" style="width:100%; padding:7px; border-radius:6px; border:1px solid var(--border-color); background:var(--bg-subtle); color:var(--text-main);">
+              <option value="isobaric">定圧変化 (P = 一定)</option>
+              <option value="isothermal">等温変化 (T = 一定)</option>
+              <option value="adiabatic">断熱変化 (Q = 0)</option>
+            </select>
+          </div>
+          <div class="sim-control-item">
+            <label><span>体積倍率 V / V₀</span><span id="valVol">1.8 倍</span></label>
+            <input id="ctrlVol" type="range" min="0.5" max="2.5" step="0.1" value="1.8" />
+          </div>
+        </div>
+        <div id="simReadout" class="sim-readout"></div>
+      `;
+      const canvas = document.getElementById("simCanvas");
+      function drawThermo() {
+        const { ctx, w, h } = setupCanvas(canvas);
+        const mode = document.getElementById("ctrlMode").value, rV = Number(document.getElementById("ctrlVol").value);
+        document.getElementById("valVol").textContent = `${rV.toFixed(1)} 倍`;
+        let P2 = 1.0, T2 = 300, Q = 0, W = 0, dU = 0; const nR = 8.31;
+        if (mode === "isobaric") { P2 = 1.0; T2 = 300 * rV; W = nR * 300 * (rV - 1); dU = 1.5 * nR * (T2 - 300); Q = dU + W; }
+        else if (mode === "isothermal") { P2 = 1.0 / rV; T2 = 300; W = nR * 300 * Math.log(rV); dU = 0; Q = W; }
+        else { P2 = Math.pow(1.0 / rV, 5 / 3); T2 = 300 * Math.pow(1.0 / rV, 2 / 3); dU = 1.5 * nR * (T2 - 300); Q = 0; W = -dU; }
+        document.getElementById("simReadout").innerHTML = `<span>温度 T: ${Math.round(T2)} K</span><span>圧力 P: ${P2.toFixed(2)} P₀</span><span>ΔU: ${Math.round(dU)} J</span><span>仕事 W: ${Math.round(W)} J</span><span>吸熱量 Q: ${Math.round(Q)} J</span>`;
+        ctx.clearRect(0, 0, w, h);
+        const px = 28, py = 65, pw = 180, ph = 130;
+        ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 3; ctx.strokeRect(px, py, pw, ph);
+        const pisX = px + Math.min(pw - 18, Math.max(20, (rV / 2.6) * pw));
+        ctx.fillStyle = "rgba(56, 189, 248, 0.25)"; ctx.fillRect(px + 2, py + 2, pisX - px - 2, ph - 4);
+        ctx.fillStyle = "#cbd5e1"; ctx.fillRect(pisX, py + 2, 12, ph - 4);
+        ctx.fillStyle = "#f8fafc"; ctx.font = "12px sans-serif"; ctx.fillText("ピストンモデル", px, py - 12);
+        const gx = Math.min(w - 230, 250), gy = 230, gw = 200, gh = 175;
+        ctx.strokeStyle = "#94a3b8"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(gx, gy - gh); ctx.lineTo(gx, gy); ctx.lineTo(gx + gw, gy); ctx.stroke();
+        ctx.fillStyle = "#cbd5e1"; ctx.fillText("P", gx - 16, gy - gh + 10); ctx.fillText("V", gx + gw + 6, gy + 4);
+        ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 3; ctx.beginPath();
+        for (let i = 0; i <= 40; i++) {
+          const vv = 1.0 + (rV - 1.0) * (i / 40);
+          let pp = 1.0; if (mode === "isothermal") pp = 1.0 / vv; else if (mode === "adiabatic") pp = Math.pow(1.0 / vv, 5 / 3);
+          const cx = gx + (vv / 2.8) * gw, cy = gy - Math.min(gh - 10, (pp / 2.5) * gh);
+          if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+        ctx.fillStyle = "#94a3b8"; ctx.beginPath(); ctx.arc(gx + (1.0 / 2.8) * gw, gy - (1.0 / 2.5) * gh, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(gx + (rV / 2.8) * gw, gy - Math.min(gh - 10, (P2 / 2.5) * gh), 6, 0, Math.PI * 2); ctx.fill();
+      }
+      document.getElementById("ctrlMode").addEventListener("change", drawThermo);
+      document.getElementById("ctrlVol").addEventListener("input", drawThermo);
+      drawThermo();
+    }
+
+    else if (simId === "sim-wave") {
+      box.innerHTML = `
+        <div class="sim-header"><span class="sim-badge">🧪 デジタル実験：定常波の生成シミュレータ</span></div>
+        <div class="sim-canvas-wrap"><canvas id="simCanvas"></canvas></div>
+        <div class="sim-controls">
+          <div class="sim-control-item"><label><span>波長 λ</span><span id="valLam">160 px</span></label><input id="ctrlLam" type="range" min="80" max="240" step="10" value="160" /></div>
+          <div class="sim-control-item"><label><span>振動数 f</span><span id="valFreq">1.0 Hz</span></label><input id="ctrlFreq" type="range" min="0.4" max="2.4" step="0.2" value="1.0" /></div>
+        </div>
+        <div class="sim-readout"><span style="color:#38bdf8;">━ 右進波</span><span style="color:#34d399;">━ 左進波</span><span style="color:#f59e0b;">━ 合成波（定常波）</span></div>
+      `;
+      const canvas = document.getElementById("simCanvas"); let t = 0;
+      function loop() {
+        const { ctx, w, h } = setupCanvas(canvas);
+        const lam = Number(document.getElementById("ctrlLam").value), freq = Number(document.getElementById("ctrlFreq").value);
+        document.getElementById("valLam").textContent = `${lam} px`; document.getElementById("valFreq").textContent = `${freq.toFixed(1)} Hz`;
+        const mid = h / 2, amp = 42;
+        ctx.clearRect(0, 0, w, h);
+        ctx.strokeStyle = "rgba(148,163,184,0.25)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(w, mid); ctx.stroke();
+        const drawWave = (color, lw, fn) => {
+          ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.beginPath();
+          for (let x = 0; x <= w; x += 4) { const y = mid - fn(x); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+          ctx.stroke();
+        };
+        const omega = 2 * Math.PI * freq, k = 2 * Math.PI / lam;
+        drawWave("rgba(56,189,248,0.6)", 1.5, x => amp * Math.sin(omega * t - k * x));
+        drawWave("rgba(52,211,153,0.6)", 1.5, x => amp * Math.sin(omega * t + k * x));
+        drawWave("#f59e0b", 3, x => amp * (Math.sin(omega * t - k * x) + Math.sin(omega * t + k * x)));
+        t += 0.016; activeAnimId = requestAnimationFrame(loop);
+      }
+      activeAnimId = requestAnimationFrame(loop);
+    }
+
+    else if (simId === "sim-ac") {
+      box.innerHTML = `
+        <div class="sim-header"><span class="sim-badge">🧪 デジタル実験：RLC交流回路 共振シミュレータ</span></div>
+        <div class="sim-canvas-wrap"><canvas id="simCanvas"></canvas></div>
+        <div class="sim-controls">
+          <div class="sim-control-item"><label><span>電源周波数 f</span><span id="valAcF">50 Hz</span></label><input id="ctrlAcF" type="range" min="10" max="150" step="1" value="50" /></div>
+          <div class="sim-control-item"><label><span>抵抗 R</span><span id="valAcR">20 Ω</span></label><input id="ctrlAcR" type="range" min="10" max="100" step="5" value="20" /></div>
+        </div>
+        <div id="simReadout" class="sim-readout"></div>
+      `;
+      const canvas = document.getElementById("simCanvas"); let t = 0; const L = 0.10, C = 100e-6;
+      function loop() {
+        const { ctx, w, h } = setupCanvas(canvas);
+        const f = Number(document.getElementById("ctrlAcF").value), R = Number(document.getElementById("ctrlAcR").value);
+        document.getElementById("valAcF").textContent = `${f} Hz`; document.getElementById("valAcR").textContent = `${R} Ω`;
+        const omega = 2 * Math.PI * f, XL = omega * L, XC = 1 / (omega * C);
+        const Z = Math.sqrt(R * R + Math.pow(XL - XC, 2)), Imax = 100 / Z, phi = Math.atan2(XL - XC, R), f0 = 1 / (2 * Math.PI * Math.sqrt(L * C));
+        document.getElementById("simReadout").innerHTML = `<span>共振周波数 f₀: ${f0.toFixed(1)} Hz</span><span>インピーダンス Z: ${Z.toFixed(1)} Ω</span><span>最大電流 I₀: ${Imax.toFixed(2)} A</span>`;
+        ctx.clearRect(0, 0, w, h); const mid = h / 2;
+        ctx.strokeStyle = "rgba(148,163,184,0.25)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, mid); ctx.lineTo(w, mid); ctx.stroke();
+        ctx.strokeStyle = "#38bdf8"; ctx.lineWidth = 2; ctx.beginPath();
+        for (let x = 0; x <= w; x += 4) { const y = mid - 70 * Math.sin(x * 0.03 + t); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+        ctx.stroke();
+        ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 3; ctx.beginPath();
+        for (let x = 0; x <= w; x += 4) { const y = mid - Math.min(95, Imax * 12) * Math.sin(x * 0.03 + t - phi); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+        ctx.stroke();
+        ctx.fillStyle = "#38bdf8"; ctx.font = "12px sans-serif"; ctx.fillText("電圧 V", 16, 24);
+        ctx.fillStyle = "#f59e0b"; ctx.fillText("電流 I（f = f₀ 付近で最大！）", 76, 24);
+        t -= 0.05; activeAnimId = requestAnimationFrame(loop);
+      }
+      activeAnimId = requestAnimationFrame(loop);
+    }
+
+    else if (simId === "sim-photo") {
+      box.innerHTML = `
+        <div class="sim-header"><span class="sim-badge">🧪 デジタル実験：光電効果シミュレータ</span></div>
+        <div class="sim-canvas-wrap"><canvas id="simCanvas"></canvas></div>
+        <div class="sim-controls">
+          <div class="sim-control-item"><label><span>光のエネルギー hν</span><span id="valE">3.5 eV</span></label><input id="ctrlE" type="range" min="1.5" max="5.5" step="0.1" value="3.5" /></div>
+          <div class="sim-control-item"><label><span>金属の仕事関数 W</span><span id="valW">2.3 eV</span></label><input id="ctrlW" type="range" min="1.8" max="4.8" step="0.1" value="2.3" /></div>
+        </div>
+        <div id="simReadout" class="sim-readout"></div>
+      `;
+      const canvas = document.getElementById("simCanvas"); let electrons = []; let tick = 0;
+      function loop() {
+        const { ctx, w, h } = setupCanvas(canvas);
+        const hv = Number(document.getElementById("ctrlE").value), W = Number(document.getElementById("ctrlW").value);
+        document.getElementById("valE").textContent = `${hv.toFixed(1)} eV`; document.getElementById("valW").textContent = `${W.toFixed(1)} eV`;
+        const Kmax = Math.max(0, hv - W);
+        document.getElementById("simReadout").innerHTML = Kmax > 0
+          ? `<span style="color:var(--success);">光電子放出あり！ 最大運動エネルギー K_max = ${Kmax.toFixed(1)} eV</span>`
+          : `<span style="color:var(--danger);">hν ≤ W のため、光電子は飛び出しません</span>`;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "#64748b"; ctx.fillRect(40, 40, 24, 200);
+        ctx.fillStyle = "#94a3b8"; ctx.fillRect(w - 64, 40, 14, 200);
+        const beamColor = hv < 2.1 ? "#ef4444" : hv < 2.7 ? "#22c55e" : hv < 3.2 ? "#3b82f6" : "#a855f7";
+        ctx.strokeStyle = beamColor; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(180, 15); ctx.lineTo(64, 140); ctx.stroke();
+        if (Kmax > 0 && tick % 12 === 0) electrons.push({ x: 66, y: 80 + Math.random() * 120, vx: 1.5 + Kmax * 1.4 });
+        ctx.fillStyle = "#38bdf8"; electrons = electrons.filter(e => e.x < w - 64);
+        electrons.forEach(e => { e.x += e.vx; ctx.beginPath(); ctx.arc(e.x, e.y, 4, 0, Math.PI * 2); ctx.fill(); });
+        tick++; activeAnimId = requestAnimationFrame(loop);
+      }
+      activeAnimId = requestAnimationFrame(loop);
+    }
+  }
+
+  function openFormulaModal() {
+    document.getElementById("modalTitle").textContent = "📐 高校物理 公式一覧（全5編16節）";
+    const body = document.getElementById("modalBody");
+    body.innerHTML = `<div class="formula-grid">` + SECTIONS.map(s => `
+      <div class="formula-card" data-jump-id="${s.id}">
+        <div style="font-size:11.5px; color:${(UNIT_THEMES[s.unit]||{}).color || "var(--accent)"}; font-weight:700;">${s.num} ${s.title}</div>
+        ${s.formulas.map(f => `<div style="margin-top:6px; font-size:13px;"><strong>${f.name}</strong><div style="overflow-x:auto;">$$${f.tex}$$</div></div>`).join("")}
+      </div>
+    `).join("") + `</div>`;
+    renderMath(body);
+    body.querySelectorAll("[data-jump-id]").forEach(el => {
+      el.addEventListener("click", () => { closeModal(); renderSection(el.getAttribute("data-jump-id")); });
+    });
+    document.getElementById("modalBackdrop").classList.add("open");
+  }
+
+  function openBookmarkModal() {
+    document.getElementById("modalTitle").textContent = "🔖 しおり（ブックマーク）一覧";
+    const body = document.getElementById("modalBody");
+    if (state.bookmarks.length === 0) {
+      body.innerHTML = `<p style="color:var(--text-light); text-align:center; padding:24px;">まだしおりが登録されていません。各単元右上の「しおり」ボタンから登録できます。</p>`;
+    } else {
+      body.innerHTML = state.bookmarks.map(id => {
+        const s = SECTIONS.find(x => x.id === id);
+        if (!s) return "";
+        return `<div class="formula-card" style="margin-bottom:8px;" data-jump-id="${s.id}">
+          <strong>${s.num} ${s.title}</strong> <span style="font-size:12px; color:var(--text-light);">(${s.unit})</span>
+        </div>`;
+      }).join("");
+      body.querySelectorAll("[data-jump-id]").forEach(el => {
+        el.addEventListener("click", () => { closeModal(); renderSection(el.getAttribute("data-jump-id")); });
+      });
+    }
+    document.getElementById("modalBackdrop").classList.add("open");
+  }
+
+  function closeModal() { document.getElementById("modalBackdrop").classList.remove("open"); }
+
+  loadState();
+  applyAppearance();
+
+  document.getElementById("tocList").addEventListener("click", (e) => {
+    const btn = e.target.closest(".toc-item");
+    if (!btn) return;
+    renderSection(btn.getAttribute("data-sec-id"));
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebarOverlay").classList.remove("open");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.getElementById("tocSearch").addEventListener("input", (e) => { state.search = e.target.value; renderTOC(); });
+
+  document.querySelectorAll(".filter-pill").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".filter-pill").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      state.filter = btn.getAttribute("data-filter");
+      renderTOC();
+    });
+  });
+
+  document.getElementById("redSheetBtn").addEventListener("click", () => { state.redSheet = !state.redSheet; saveState(); applyAppearance(); });
+  document.getElementById("fontSizeBtn").addEventListener("click", () => { state.fontScaleIndex = (state.fontScaleIndex + 1) % FONT_SCALES.length; saveState(); applyAppearance(); });
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const idx = THEMES.findIndex(t => t.id === state.theme);
+    state.theme = THEMES[(idx + 1) % THEMES.length].id;
+    saveState(); applyAppearance(); applyUnitAccent((SECTIONS.find(s => s.id === state.currentId) || SECTIONS[0]).unit);
+  });
+
+  document.getElementById("formulaModalBtn").addEventListener("click", openFormulaModal);
+  document.getElementById("bookmarkFilterBtn").addEventListener("click", openBookmarkModal);
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  document.getElementById("modalBackdrop").addEventListener("click", (e) => { if (e.target.id === "modalBackdrop") closeModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeModal();
+      document.getElementById("sidebar").classList.remove("open");
+      document.getElementById("sidebarOverlay").classList.remove("open");
+    }
+  });
+
+  document.getElementById("menuToggleBtn").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.toggle("open");
+    document.getElementById("sidebarOverlay").classList.toggle("open");
+  });
+  document.getElementById("sidebarOverlay").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("sidebarOverlay").classList.remove("open");
+  });
+
+  renderSection(state.currentId);
+})();
+</script>
+</body>
+</html>
